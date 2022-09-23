@@ -10,10 +10,10 @@ function Login() {
   const [isDisabled, setIsDisabled] = useState(true);
 
   const handleChange = ({ target: { name, value } }) => {
-    setLogin((prevLogin) => ({
-      ...prevLogin,
+    setLogin({
+      ...login,
       [name]: value,
-    }));
+    });
   };
 
   useEffect(() => {
