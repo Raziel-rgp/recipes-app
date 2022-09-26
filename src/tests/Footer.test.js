@@ -1,6 +1,6 @@
 import userEvent from '@testing-library/user-event';
-import renderWithRouter from '../tests/utils/renderWithRouter';
 import { render, screen } from '@testing-library/react';
+import renderWithRouter from '../tests/utils/renderWithRouter';
 import Footer from '../components/Footer';
 import Meals from '../pages/Meals';
 
@@ -18,7 +18,7 @@ describe('Tests of Footer', () => {
   });
   test('3- test if on click the button "drinks" the Route is "/Meals"', () => {
     const { history } = renderWithRouter(<Meals />);
-    const button = screen.getByAltText("meals");
+    const button = screen.getByAltText('meals');
     userEvent.click(button);
     expect(history.location.pathname).toBe('/meals');
   });
