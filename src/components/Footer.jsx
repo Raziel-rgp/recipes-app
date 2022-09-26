@@ -13,6 +13,7 @@ function Footer() {
     >
       <button
         type="button"
+        name="routToDrinks"
         onClick={ () => history.push('/drinks') }
       >
         <img
