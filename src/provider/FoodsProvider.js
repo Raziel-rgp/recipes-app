@@ -5,6 +5,7 @@ import fetchApi from '../services/fetchApi';
 
 function FoodsProvider({ children }) {
   const [foods, setFoods] = useState();
+  const [site, setSite] = useState('');
 
   const getFoods = (url) => {
     fetchApi(url).then((data) => setFoods(data));
@@ -13,6 +14,8 @@ function FoodsProvider({ children }) {
   const contextType = {
     foods,
     getFoods,
+    site,
+    setSite,
   };
 
   return (
