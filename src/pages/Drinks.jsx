@@ -12,22 +12,28 @@ function Drinks() {
     setSite('thecocktaildb');
   }, [setSite]);
 
+  if (foods.drinks === null) {
+    global.alert('Sorry, we haven\'t found any recipes for these filters.');
+  }
+
   return (
     <main>
       <Header title="Drinks" iconSearch />
       {
-        foods && foods.drinks.map(({ idDrink, strDrink, strDrinkThumb }, index) => {
-          if (index < MAX_LENGTH_FOODS) {
-            return (<FoodsCards
-              key={ idDrink }
-              id={ idDrink }
-              name={ strDrink }
-              img={ strDrinkThumb }
-              index={ index }
-            />);
-          }
-          return undefined;
-        })
+        foods.drinks && foods.drinks.length && foods.drinks.map(
+          ({ idDrink, strDrink, strDrinkThumb }, index) => {
+            if (index < MAX_LENGTH_FOODS) {
+              return (<FoodsCards
+                key={ idDrink }
+                id={ idDrink }
+                name={ strDrink }
+                img={ strDrinkThumb }
+                index={ index }
+              />);
+            }
+            return undefined;
+          },
+        )
       }
     </main>
   );

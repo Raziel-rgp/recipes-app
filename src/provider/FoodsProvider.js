@@ -6,7 +6,7 @@ import fetchApi from '../services/fetchApi';
 
 function FoodsProvider({ children }) {
   const history = useHistory();
-  const [foods, setFoods] = useState();
+  const [foods, setFoods] = useState({});
   const [site, setSite] = useState('');
 
   const getFoods = (url) => {

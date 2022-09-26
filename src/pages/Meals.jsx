@@ -12,22 +12,28 @@ function Meals() {
     setSite('themealdb');
   }, [setSite]);
 
+  if (foods.meals === null) {
+    global.alert('Sorry, we haven\'t found any recipes for these filters.');
+  }
+
   return (
     <main>
-      <Header title="Meals" iconSearch site="themealdb" />
+      <Header title="Meals" iconSearch />
       {
-        foods && foods.meals.map(({ idMeal, strMeal, strMealThumb }, index) => {
-          if (index < MAX_LENGTH_FOODS) {
-            return (<FoodsCards
-              key={ idMeal }
-              id={ idMeal }
-              name={ strMeal }
-              img={ strMealThumb }
-              index={ index }
-            />);
-          }
-          return undefined;
-        })
+        foods.meals && foods.meals.length && foods.meals.map(
+          (({ idMeal, strMeal, strMealThumb }, index) => {
+            if (index < MAX_LENGTH_FOODS) {
+              return (<FoodsCards
+                key={ idMeal }
+                id={ idMeal }
+                name={ strMeal }
+                img={ strMealThumb }
+                index={ index }
+              />);
+            }
+            return undefined;
+          }),
+        )
       }
     </main>
   );
