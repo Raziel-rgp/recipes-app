@@ -1,0 +1,25 @@
+.header-nav-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.icons-nav-container {
+  text-decoration: none;
+}
+
+.button-icon {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font: inherit;
+  outline: inherit;
+  padding: 0;
+}
+
+.search-top-btn {
+  margin-right: 12px;
+}
+
+.profile-top-btn {
+  margin-right: 8px;
+}

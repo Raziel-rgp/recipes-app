@@ -4,45 +4,49 @@ import { useHistory } from 'react-router-dom';
 import searchIcon from '../images/searchIcon.svg';
 import profileIcon from '../images/profileIcon.svg';
 import SearchBar from './SearchBar';
+import '../styles/Header.css';
 
 function Header({ title, iconSearch }) {
   const history = useHistory();
   const [showInput, setShowInput] = useState(false);
 
-  const showSearchBar = () => {
-    setShowInput(!showInput);
-  };
-
   return (
-    <section>
+    <section className="header-container">
       <h2 data-testid="page-title">{title}</h2>
-      {
-        iconSearch
+      <section className="header-nav-container">
+        <div />
+        <div className="icons-nav-container">
+          {
+            iconSearch
         && (
           <button
-            style={ { marginLeft: '5px' } }
+            className="button-icon search-top-btn"
             type="button"
-            onClick={ showSearchBar }
+            onClick={ () => setShowInput(!showInput) }
           >
             <img
+              className="search-icon"
               data-testid="search-top-btn"
               src={ searchIcon }
               alt="Search icon"
             />
           </button>
         )
-      }
-      <button
-        style={ { marginLeft: '5px' } }
-        type="button"
-        onClick={ () => history.push('/profile') }
-      >
-        <img
-          data-testid="profile-top-btn"
-          src={ profileIcon }
-          alt="Profile icon"
-        />
-      </button>
+          }
+          <button
+            className="button-icon profile-top-btn"
+            type="button"
+            onClick={ () => history.push('/profile') }
+          >
+            <img
+              className="search-icon"
+              data-testid="profile-top-btn"
+              src={ profileIcon }
+              alt="Profile icon"
+            />
+          </button>
+        </div>
+      </section>
       {
         showInput
         && <SearchBar />
