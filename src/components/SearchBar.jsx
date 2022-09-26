@@ -37,7 +37,7 @@ function SearchBar() {
     case 'First letter':
       getFirstLetter(filterSearch.value);
       break;
-    default: break;
+    default: global.alert('Fill in the fields');
     }
   };
 
@@ -58,7 +58,6 @@ function SearchBar() {
             name="filter"
             onChange={ handleChange }
             value="Ingredient"
-            className="i"
             data-testid="ingredient-search-radio"
             id="ingredient-search-radio"
           />
@@ -69,7 +68,6 @@ function SearchBar() {
             type="radio"
             name="filter"
             value="Name"
-            className="s"
             onChange={ handleChange }
             data-testid="name-search-radio"
             id="name-search-radio"
@@ -80,7 +78,6 @@ function SearchBar() {
           <input
             type="radio"
             name="filter"
-            className="f"
             value="First letter"
             onChange={ handleChange }
             data-testid="first-letter-search-radio"
