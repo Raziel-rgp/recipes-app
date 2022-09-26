@@ -6,7 +6,12 @@ import FoodsCards from '../components/FoodsCards';
 const MAX_LENGTH_FOODS = 12;
 
 function Drinks() {
-  const { foods, setSite } = useContext(FoodsContext);
+  const { foods, setSite, getFoods } = useContext(FoodsContext);
+
+  useEffect(() => {
+    const url = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
+    getFoods(url);
+  }, [getFoods]);
 
   useEffect(() => {
     setSite('thecocktaildb');

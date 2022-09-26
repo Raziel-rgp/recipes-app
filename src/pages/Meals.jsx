@@ -6,7 +6,12 @@ import FoodsContext from '../provider/FoodsContext';
 const MAX_LENGTH_FOODS = 12;
 
 function Meals() {
-  const { foods, setSite } = useContext(FoodsContext);
+  const { foods, setSite, getFoods } = useContext(FoodsContext);
+
+  useEffect(() => {
+    const url = 'https://www.themealdb.com/api/json/v1/1/search.php?s=';
+    getFoods(url);
+  }, [getFoods]);
 
   useEffect(() => {
     setSite('themealdb');
