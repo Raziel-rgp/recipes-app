@@ -2,6 +2,7 @@ import React, { useEffect, useContext } from 'react';
 import Header from '../components/Header';
 import FoodsContext from '../provider/FoodsContext';
 import FoodsCards from '../components/FoodsCards';
+import Footer from '../components/Footer';
 
 const MAX_LENGTH_FOODS = 12;
 
@@ -40,6 +41,7 @@ function Drinks() {
           },
         )
       }
+      <Footer />
     </main>
   );
 }
