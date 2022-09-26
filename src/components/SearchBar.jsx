@@ -1,22 +1,26 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import FoodsContext from '../provider/FoodsContext';
 
 function SearchBar() {
   const [filterSearch, setFilterSearch] = useState({
     value: '',
     filter: '',
-    typeSearch: '',
+    type: '',
   });
+  const { getFoods } = useContext(FoodsContext);
 
-  const handleChange = ({ target: { name, value, typeSearch } }) => {
+  const handleChange = ({ target: { name, value, className } }) => {
+    console.log(className);
     setFilterSearch({
       ...filterSearch,
       [name]: value,
-      typeSearch,
+      type: className,
     });
   };
 
-  const handleSubmit = () => {
-
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    getFoods(filterSearch.value, filterSearch.type);
   };
 
   return (
@@ -37,7 +41,7 @@ function SearchBar() {
               name="filter"
               onChange={ handleChange }
               value="Ingredient"
-              typeSearch="i"
+              className="i"
               data-testid="ingredient-search-radio"
               id="ingredient-search-radio"
             />
@@ -48,7 +52,7 @@ function SearchBar() {
               type="radio"
               name="filter"
               value="Name"
-              key="s"
+              className="s"
               onChange={ handleChange }
               data-testid="name-search-radio"
               id="name-search-radio"
@@ -59,7 +63,7 @@ function SearchBar() {
             <input
               type="radio"
               name="filter"
-              key="f"
+              className="f"
               value="First letter"
               onChange={ handleChange }
               data-testid="first-letter-search-radio"
