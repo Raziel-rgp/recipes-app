@@ -1,6 +1,6 @@
 import userEvent from '@testing-library/user-event';
 import { render, screen } from '@testing-library/react';
-import renderWithRouter from '../tests/utils/renderWithRouter';
+import renderWithRouter from './utils/renderWithRouter';
 import Footer from '../components/Footer';
 import Meals from '../pages/Meals';
 
