@@ -1,26 +1,44 @@
 import React, { useState, useContext } from 'react';
 import FoodsContext from '../provider/FoodsContext';
 
+const getUrl = (typeSearch, typeValue, value) => `https://www.themealdb.com/api/json/v1/1/${typeSearch}.php?${typeValue}=${value}`;
+
 function SearchBar() {
   const [filterSearch, setFilterSearch] = useState({
     value: '',
     filter: '',
-    type: '',
   });
   const { getFoods } = useContext(FoodsContext);
 
-  const handleChange = ({ target: { name, value, className } }) => {
-    console.log(className);
+  const handleChange = ({ target: { name, value } }) => {
     setFilterSearch({
       ...filterSearch,
       [name]: value,
-      type: className,
     });
+  };
+
+  const getFirstLetter = (value) => {
+    if (value.length > 1) {
+      global.alert('Your search must have only 1 (one) character');
+    } else {
+      getFoods(getUrl('search', 'f', filterSearch.value));
+    }
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    getFoods(filterSearch.value, filterSearch.type);
+    switch (filterSearch.filter) {
+    case 'Ingredient':
+      getFoods(getUrl('filter', 'i', filterSearch.value));
+      break;
+    case 'Name':
+      getFoods(getUrl('search', 's', filterSearch.value));
+      break;
+    case 'First letter':
+      getFirstLetter(filterSearch.value);
+      break;
+    default: break;
+    }
   };
 
   return (
