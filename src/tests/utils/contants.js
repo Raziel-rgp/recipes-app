@@ -18,3 +18,6 @@ export const EXEC_SEARCH_BTN = 'exec-search-btn';
 export const CHICKEN_INGREDIENT_URL = 'https://www.themealdb.com/api/json/v1/1/filter.php?i=chicken';
 export const CHICKEN_NAME_URL = 'https://www.themealdb.com/api/json/v1/1/search.php?s=chicken';
 export const CHICKEN_FIRST_LETTER_URL = 'https://www.themealdb.com/api/json/v1/1/search.php?f=c';
+
+export const DRINKS_BOTTOM_BTN = 'drinks-bottom-btn';
+export const MEALS_BOTTOM_BTN = 'meals-bottom-btn';
