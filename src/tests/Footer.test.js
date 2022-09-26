@@ -1,8 +1,6 @@
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import renderWithRouter from '../tests/utils/renderWithRouter'
-import { creatMemoryHistory } from 'history';
-import { Router } from 'react-router-dom';
 import Footer from '../components/Footer';
 import Meals from '../pages/Meals';
 
