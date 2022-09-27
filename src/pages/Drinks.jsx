@@ -12,7 +12,6 @@ const MAX_LENGTH_CATEGORIES = 5;
 function Drinks() {
   const {
     foods,
-    // setFoods,
     site,
     setSite,
     getFoods,

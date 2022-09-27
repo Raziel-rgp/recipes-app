@@ -1,15 +1,26 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import PropTypes from 'prop-types';
 import FoodsContext from '../provider/FoodsContext';
 
 function Categories({ category, id, site }) {
-  const { fetchCategory } = useContext(FoodsContext);
+  const { fetchCategory, getFoods } = useContext(FoodsContext);
+  const [selected, setSelect] = useState(false);
+
+  const handleClick = () => {
+    if (!selected) {
+      fetchCategory(site, category);
+    } else {
+      getFoods(`https://www.${site}.com/api/json/v1/1/search.php?s=`);
+    }
+    setSelect(!selected);
+  };
+
   return (
     <div>
       <button
         id={ id }
         type="button"
-        onClick={ () => fetchCategory(site, category) }
+        onClick={ handleClick }
         data-testid={ `${category}-category-filter` }
       >
         <p>
