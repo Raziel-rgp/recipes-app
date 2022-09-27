@@ -21,3 +21,6 @@ export const CHICKEN_FIRST_LETTER_URL = 'https://www.themealdb.com/api/json/v1/1
 
 export const DRINKS_BOTTOM_BTN = 'drinks-bottom-btn';
 export const MEALS_BOTTOM_BTN = 'meals-bottom-btn';
+
+export const URL_CATEGORIES_MEALS = 'https://www.themealdb.com/api/json/v1/1/list.php?c=list';
+export const URL_CATEGORIES_DRINKS = 'https://www.thecocktaildb.com/api/json/v1/1/list.php?c=list';

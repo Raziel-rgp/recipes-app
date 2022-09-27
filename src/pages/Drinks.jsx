@@ -1,7 +1,7 @@
 import React, { useEffect, useContext } from 'react';
 import Header from '../components/Header';
 import FoodsContext from '../provider/FoodsContext';
-import FoodsCards from '../components/FoodsCards';
+import FoodCard from '../components/FoodCard';
 import Footer from '../components/Footer';
 import Categories from '../components/Categories';
 
@@ -53,7 +53,7 @@ function Drinks() {
             foods.drinks && foods.drinks.length && foods.drinks.map(
               ({ idDrink, strDrink, strDrinkThumb }, index) => {
                 if (index < MAX_LENGTH_DRINKS) {
-                  return (<FoodsCards
+                  return (<FoodCard
                     key={ idDrink }
                     id={ idDrink }
                     name={ strDrink }

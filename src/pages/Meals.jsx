@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from 'react';
-import FoodsCards from '../components/FoodsCards';
+import FoodCard from '../components/FoodCard';
 import Header from '../components/Header';
 import FoodsContext from '../provider/FoodsContext';
 import Footer from '../components/Footer';
@@ -54,7 +54,7 @@ function Meals() {
               (({ idMeal, strMeal, strMealThumb }, index) => {
                 if (index < MAX_LENGTH_FOODS) {
                   return (
-                    <FoodsCards
+                    <FoodCard
                       key={ idMeal }
                       id={ idMeal }
                       name={ strMeal }

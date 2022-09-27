@@ -6,10 +6,10 @@ import {
   EMAIL_INPUT, VALID_EMAIL, PASSWORD_INPUT, VALID_PASSWORD, LOGIN_SUBMIT_BTN,
   SEARCH_TOP_BTN, SEARCH_INPUT, INGREDIENT_SEARCH_RADIO, NAME_SEARCH_RADIO,
   FIRST_LETTER_SEARCH_RADIO, EXEC_SEARCH_BTN, CHICKEN_INGREDIENT_URL, CHICKEN_NAME_URL,
-  CHICKEN_FIRST_LETTER_URL,
+  CHICKEN_FIRST_LETTER_URL, DRINKS_BOTTOM_BTN,
 } from './utils/contants';
 import renderWithRouter from './utils/renderWithRouter';
-import mockMealChicken from './utils/mockData';
+import { mockMealChicken } from './utils/mockData';
 
 describe('tests for component SearchBar', () => {
   beforeEach(async () => {
@@ -102,5 +102,21 @@ describe('tests for component SearchBar', () => {
     userEvent.click(screen.getByTestId(EXEC_SEARCH_BTN));
 
     await waitFor(() => expect(history.location.pathname).toBe('/meals/1111'));
+  });
+
+  it('in the page Drinks, when pass an invalid argument the corret alert is called', async () => {
+    userEvent.click(screen.getByTestId(DRINKS_BOTTOM_BTN));
+
+    global.fetch = jest.fn(() => Promise.resolve({
+      json: () => Promise.resolve({ drinks: null }),
+    }));
+
+    userEvent.click(screen.getByTestId(SEARCH_TOP_BTN));
+    userEvent.click(screen.getByTestId(NAME_SEARCH_RADIO));
+    userEvent.type(screen.getByTestId(SEARCH_INPUT), 'ingredient');
+    userEvent.click(screen.getByTestId(EXEC_SEARCH_BTN));
+
+    expect(window.alert).not.toBeCalled();
+    await waitFor(() => expect(window.alert).toBeCalledWith('Sorry, we haven\'t found any recipes for these filters.'));
   });
 });
