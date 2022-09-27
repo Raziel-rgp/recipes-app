@@ -10,15 +10,21 @@ const MAX_LENGTH_CATEGORIES = 5;
 
 function Drinks() {
   const {
-    foods, setSite, getFoods, getCategories, categories,
+    foods,
+    site,
+    setSite,
+    getFoods,
+    getCategories,
+    categories,
   } = useContext(FoodsContext);
 
+  const url = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
+
   useEffect(() => {
-    const url = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
-    const site = 'thecocktaildb';
+    const api = 'thecocktaildb';
     getFoods(url);
-    setSite(site);
-    getCategories(site);
+    setSite(api);
+    getCategories(api);
   }, []);
 
   useEffect(() => {
@@ -39,27 +45,41 @@ function Drinks() {
             categories && categories.drinks
             && categories.drinks.map(({ strCategory }, index) => {
               if (index < MAX_LENGTH_CATEGORIES) {
-                return (<Categories
-                  category={ strCategory }
-                  key={ strCategory }
-                />);
+                return (
+                  <Categories
+                    category={ strCategory }
+                    key={ strCategory }
+                    id={ strCategory }
+                    site={ site }
+                  />
+                );
               }
               return undefined;
             })
           }
+          <button
+            type="button"
+            onClick={ () => getFoods(url) }
+            data-testid="All-category-filter"
+          >
+            All
+          </button>
         </div>
         <div className="foods-main-div">
           {
             foods.drinks && foods.drinks.length && foods.drinks.map(
               ({ idDrink, strDrink, strDrinkThumb }, index) => {
                 if (index < MAX_LENGTH_DRINKS) {
-                  return (<FoodCard
-                    key={ idDrink }
-                    id={ idDrink }
-                    name={ strDrink }
-                    img={ strDrinkThumb }
-                    index={ index }
-                  />);
+                  return (
+                    <FoodCard
+                      key={ idDrink }
+                      id={ idDrink }
+                      name={ strDrink }
+                      img={ strDrinkThumb }
+                      index={ index }
+                      siteKey="drinks"
+                    />
+                  );
                 }
                 return undefined;
               },

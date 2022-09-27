@@ -10,15 +10,21 @@ const MAX_LENGTH_CATEGORIES = 5;
 
 function Meals() {
   const {
-    foods, setSite, getFoods, getCategories, categories,
+    foods,
+    site,
+    setSite,
+    getFoods,
+    getCategories,
+    categories,
   } = useContext(FoodsContext);
 
+  const url = 'https://www.themealdb.com/api/json/v1/1/search.php?s=';
+
   useEffect(() => {
-    const url = 'https://www.themealdb.com/api/json/v1/1/search.php?s=';
-    const site = 'themealdb';
+    const api = 'themealdb';
     getFoods(url);
-    setSite(site);
-    getCategories(site);
+    setSite(api);
+    getCategories(api);
   }, []);
 
   useEffect(() => {
@@ -42,16 +48,25 @@ function Meals() {
                 return (<Categories
                   category={ strCategory }
                   key={ strCategory }
+                  id={ strCategory }
+                  site={ site }
                 />);
               }
               return undefined;
             })
           }
+          <button
+            type="button"
+            onClick={ () => getFoods(url) }
+            data-testid="All-category-filter"
+          >
+            All
+          </button>
         </div>
         <div className="foods-main-div">
           {
             foods.meals && foods.meals.length && foods.meals.map(
-              (({ idMeal, strMeal, strMealThumb }, index) => {
+              ({ idMeal, strMeal, strMealThumb }, index) => {
                 if (index < MAX_LENGTH_FOODS) {
                   return (
                     <FoodCard
@@ -60,11 +75,12 @@ function Meals() {
                       name={ strMeal }
                       img={ strMealThumb }
                       index={ index }
+                      siteKey="meals"
                     />
                   );
                 }
                 return undefined;
-              }),
+              },
             )
           }
         </div>
