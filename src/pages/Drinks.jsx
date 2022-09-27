@@ -4,21 +4,29 @@ import FoodsContext from '../provider/FoodsContext';
 import FoodsCards from '../components/FoodsCards';
 import Footer from '../components/Footer';
 import Categories from '../components/Categories';
+import fetchApi from '../services/fetchApi';
 
 const MAX_LENGTH_DRINKS = 12;
 const MAX_LENGTH_CATEGORIES = 5;
 
 function Drinks() {
   const {
-    foods, setSite, getFoods, getCategories, categories,
+    foods,
+    setFoods,
+    site,
+    setSite,
+    getFoods,
+    getCategories,
+    categories,
   } = useContext(FoodsContext);
 
+  const url = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
+
   useEffect(() => {
-    const url = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
-    const site = 'thecocktaildb';
+    const api = 'thecocktaildb';
     getFoods(url);
-    setSite(site);
-    getCategories(site);
+    setSite(api);
+    getCategories(api);
   }, []);
 
   useEffect(() => {
@@ -39,27 +47,40 @@ function Drinks() {
             categories && categories.drinks
             && categories.drinks.map(({ strCategory }, index) => {
               if (index < MAX_LENGTH_CATEGORIES) {
-                return (<Categories
-                  category={ strCategory }
-                  key={ strCategory }
-                />);
+                return (
+                  <Categories
+                    category={ strCategory }
+                    key={ strCategory }
+                    id={ strCategory }
+                    site={ site }
+                  />
+                );
               }
               return undefined;
             })
           }
+          <button
+            type="button"
+            onClick={ () => fetchApi(url).then((data) => setFoods(data)) }
+            data-testid="All-category-filter"
+          >
+            All
+          </button>
         </div>
         <div className="foods-main-div">
           {
             foods.drinks && foods.drinks.length && foods.drinks.map(
               ({ idDrink, strDrink, strDrinkThumb }, index) => {
                 if (index < MAX_LENGTH_DRINKS) {
-                  return (<FoodsCards
-                    key={ idDrink }
-                    id={ idDrink }
-                    name={ strDrink }
-                    img={ strDrinkThumb }
-                    index={ index }
-                  />);
+                  return (
+                    <FoodsCards
+                      key={ idDrink }
+                      id={ idDrink }
+                      name={ strDrink }
+                      img={ strDrinkThumb }
+                      index={ index }
+                    />
+                  );
                 }
                 return undefined;
               },
