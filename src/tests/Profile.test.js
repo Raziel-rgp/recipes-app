@@ -1,5 +1,5 @@
 import userEvent from '@testing-library/user-event';
-import { screen } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import renderWithRouter from './utils/renderWithRouter';
 import App from '../App';
 import Profile from '../pages/Profile';
@@ -11,6 +11,10 @@ import {
 } from './utils/contants';
 
 describe('Tests of Profile', () => {
+  test('Test if profile is loaded before login', () => {
+    render(<Profile />);
+    expect(screen.getByTestId(PROFILE_USER_EMAIL)).toHaveTextContent(/User :User/i);
+  });
   test('if on click the button "Profile" the Route is "/profile"', () => {
     const { history } = renderWithRouter(<App />);
     userEvent.type(screen.getByTestId(EMAIL_INPUT), VALID_EMAIL);
