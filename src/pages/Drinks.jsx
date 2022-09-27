@@ -20,26 +20,28 @@ function Drinks() {
   }
 
   return (
-    <main>
+    <section>
       <Header title="Drinks" iconSearch />
-      {
-        foods.drinks && foods.drinks.length && foods.drinks.map(
-          ({ idDrink, strDrink, strDrinkThumb }, index) => {
-            if (index < MAX_LENGTH_FOODS) {
-              return (<FoodsCards
-                key={ idDrink }
-                id={ idDrink }
-                name={ strDrink }
-                img={ strDrinkThumb }
-                index={ index }
-              />);
-            }
-            return undefined;
-          },
-        )
-      }
+      <main className="foods-main-container">
+        {
+          foods.drinks && foods.drinks.length && foods.drinks.map(
+            ({ idDrink, strDrink, strDrinkThumb }, index) => {
+              if (index < MAX_LENGTH_FOODS) {
+                return (<FoodsCards
+                  key={ idDrink }
+                  id={ idDrink }
+                  name={ strDrink }
+                  img={ strDrinkThumb }
+                  index={ index }
+                />);
+              }
+              return undefined;
+            },
+          )
+        }
+      </main>
       <Footer />
-    </main>
+    </section>
   );
 }
 

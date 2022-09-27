@@ -8,11 +8,12 @@ function Footer() {
   const history = useHistory();
   return (
     <div
+      className="footer-container"
       data-testid="footer"
-      className="footer"
     >
       <button
         type="button"
+        className="button-icon drinks-bottom-btn"
         onClick={ () => history.push('/drinks') }
       >
         <img
@@ -23,6 +24,7 @@ function Footer() {
       </button>
       <button
         type="button"
+        className="button-icon meals-bottom-btn"
         onClick={ () => history.push('/meals') }
       >
         <img

@@ -1,0 +1,29 @@
+* {
+  box-sizing: border-box;
+  font-family: sans-serif;
+  margin: 0%;
+  padding: 0%;
+}
+
+:root {
+
+  --primary: #fcdc36;
+
+  --secundary: #41197f;
+}
+
+.button-icon {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font: inherit;
+  outline: inherit;
+  padding: 0;
+}
+
+.foods-main-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 20px;
+}

@@ -20,26 +20,28 @@ function Meals() {
   }
 
   return (
-    <main>
+    <section>
       <Header title="Meals" iconSearch />
-      {
-        foods.meals && foods.meals.length && foods.meals.map(
-          (({ idMeal, strMeal, strMealThumb }, index) => {
-            if (index < MAX_LENGTH_FOODS) {
-              return (<FoodsCards
-                key={ idMeal }
-                id={ idMeal }
-                name={ strMeal }
-                img={ strMealThumb }
-                index={ index }
-              />);
-            }
-            return undefined;
-          }),
-        )
-      }
+      <main className="foods-main-container">
+        {
+          foods.meals && foods.meals.length && foods.meals.map(
+            (({ idMeal, strMeal, strMealThumb }, index) => {
+              if (index < MAX_LENGTH_FOODS) {
+                return (<FoodsCards
+                  key={ idMeal }
+                  id={ idMeal }
+                  name={ strMeal }
+                  img={ strMealThumb }
+                  index={ index }
+                />);
+              }
+              return undefined;
+            }),
+          )
+        }
+      </main>
       <Footer />
-    </main>
+    </section>
   );
 }
 

@@ -1,15 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import '../styles/FoodsCards.css';
 
 function FoodsCards({ id, name, img, index }) {
   return (
-    <div key={ id } data-testid={ `${index}-recipe-card` }>
+    <div className="card-container" key={ id } data-testid={ `${index}-recipe-card` }>
       <img
         data-testid={ `${index}-card-img` }
         src={ img }
+        className="card-img"
         alt={ name }
       />
-      <p data-testid={ `${index}-card-name` }>{name}</p>
+      <p className="card-name" data-testid={ `${index}-card-name` }>{name}</p>
     </div>
   );
 }

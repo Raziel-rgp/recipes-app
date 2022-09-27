@@ -12,7 +12,6 @@ function Header({ title, iconSearch }) {
 
   return (
     <section className="header-container">
-      <h2 data-testid="page-title">{title}</h2>
       <section className="header-nav-container">
         <div />
         <div className="icons-nav-container">
@@ -47,6 +46,7 @@ function Header({ title, iconSearch }) {
           </button>
         </div>
       </section>
+      <h2 className="page-title" data-testid="page-title">{title}</h2>
       {
         showInput
         && <SearchBar />
