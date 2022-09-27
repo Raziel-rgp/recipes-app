@@ -16,7 +16,7 @@ describe('tests for component SearchBar', () => {
     global.fetch = jest.fn(() => Promise.resolve({
       json: () => Promise.resolve(mockMealChicken),
     }));
-    jest.spyOn(window, 'alert').mockImplementation(() => {});
+    jest.spyOn(window, 'alert');
 
     renderWithRouter(<App />);
 
@@ -25,6 +25,8 @@ describe('tests for component SearchBar', () => {
     userEvent.click(screen.getByTestId(LOGIN_SUBMIT_BTN));
     userEvent.click(screen.getByTestId(SEARCH_TOP_BTN));
   });
+
+  afterEach(() => jest.clearAllMocks());
 
   it('has search input, 3 inputs of the radio type and a search button', async () => {
     await waitFor(async () => {
@@ -68,8 +70,37 @@ describe('tests for component SearchBar', () => {
     expect(window.alert).toBeCalledWith('Your search must have only 1 (one) character');
   });
 
-  it('when inputs are empty, show an alart', () => {
+  it('when inputs are empty, show an alert', () => {
     userEvent.click(screen.getByTestId(EXEC_SEARCH_BTN));
+
     expect(window.alert).toBeCalledWith('Fill in the fields');
+  });
+
+  it('when pass an invalid argument the corret alert is called', async () => {
+    global.fetch = jest.fn(() => Promise.resolve({
+      json: () => Promise.resolve({ meals: null }),
+    }));
+    userEvent.click(screen.getByTestId(NAME_SEARCH_RADIO));
+    userEvent.type(screen.getByTestId(SEARCH_INPUT), 'ingredient');
+    userEvent.click(screen.getByTestId(EXEC_SEARCH_BTN));
+
+    expect(window.alert).not.toBeCalled();
+    await waitFor(() => expect(window.alert).toBeCalledWith('Sorry, we haven\'t found any recipes for these filters.'));
+  });
+
+  it('tests the redirect when the api returns just 1 result inside the array', async () => {
+    global.fetch = jest.fn(() => Promise.resolve({
+      json: () => Promise.resolve({ meals: [{ idMeal: '1111' }] }),
+    }));
+    const { history } = renderWithRouter(<App />);
+
+    userEvent.type(screen.getByTestId(EMAIL_INPUT), VALID_EMAIL);
+    userEvent.type(screen.getByTestId(PASSWORD_INPUT), VALID_PASSWORD);
+    userEvent.click(screen.getByTestId(LOGIN_SUBMIT_BTN));
+    userEvent.type(screen.getByTestId(SEARCH_INPUT), 'fffff');
+    userEvent.type(screen.getByTestId(SEARCH_INPUT), 'ingredient');
+    userEvent.click(screen.getByTestId(EXEC_SEARCH_BTN));
+
+    await waitFor(() => expect(history.location.pathname).toBe('/meals/1111'));
   });
 });

@@ -15,9 +15,14 @@ function Drinks() {
     setSite('thecocktaildb');
   }, []);
 
-  if (foods.drinks === null) {
-    global.alert('Sorry, we haven\'t found any recipes for these filters.');
-  }
+  useEffect(() => {
+    const checkFoods = () => {
+      if (foods.drinks === null) {
+        global.alert('Sorry, we haven\'t found any recipes for these filters.');
+      }
+    };
+    checkFoods();
+  }, [foods]);
 
   return (
     <main>

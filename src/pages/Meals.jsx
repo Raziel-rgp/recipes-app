@@ -15,9 +15,14 @@ function Meals() {
     setSite('themealdb');
   }, []);
 
-  if (foods.meals === null) {
-    global.alert('Sorry, we haven\'t found any recipes for these filters.');
-  }
+  useEffect(() => {
+    const checkFoods = () => {
+      if (foods.meals === null) {
+        global.alert('Sorry, we haven\'t found any recipes for these filters.');
+      }
+    };
+    checkFoods();
+  }, [foods]);
 
   return (
     <main>
