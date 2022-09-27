@@ -4,7 +4,7 @@ import FoodsContext from '../provider/FoodsContext';
 import FoodsCards from '../components/FoodsCards';
 import Footer from '../components/Footer';
 import Categories from '../components/Categories';
-import fetchApi from '../services/fetchApi';
+// import fetchApi from '../services/fetchApi';
 
 const MAX_LENGTH_DRINKS = 12;
 const MAX_LENGTH_CATEGORIES = 5;
@@ -12,7 +12,7 @@ const MAX_LENGTH_CATEGORIES = 5;
 function Drinks() {
   const {
     foods,
-    setFoods,
+    // setFoods,
     site,
     setSite,
     getFoods,
@@ -61,7 +61,7 @@ function Drinks() {
           }
           <button
             type="button"
-            onClick={ () => fetchApi(url).then((data) => setFoods(data)) }
+            onClick={ () => getFoods(url) }
             data-testid="All-category-filter"
           >
             All
