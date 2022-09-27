@@ -1,4 +1,4 @@
-import { screen } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 import App from '../App';
@@ -12,7 +12,7 @@ import renderWithRouter from './utils/renderWithRouter';
 import mockMealChicken from './utils/mockData';
 
 describe('tests for component SearchBar', () => {
-  beforeEach(() => {
+  beforeEach(async () => {
     global.fetch = jest.fn(() => Promise.resolve({
       json: () => Promise.resolve(mockMealChicken),
     }));
@@ -26,12 +26,14 @@ describe('tests for component SearchBar', () => {
     userEvent.click(screen.getByTestId(SEARCH_TOP_BTN));
   });
 
-  it('has search input, 3 inputs of the radio type and a search button', () => {
-    expect(screen.getByTestId(SEARCH_INPUT)).toBeInTheDocument();
-    expect(screen.getByTestId(INGREDIENT_SEARCH_RADIO)).toBeInTheDocument();
-    expect(screen.getByTestId(NAME_SEARCH_RADIO)).toBeInTheDocument();
-    expect(screen.getByTestId(FIRST_LETTER_SEARCH_RADIO)).toBeInTheDocument();
-    expect(screen.getByTestId(EXEC_SEARCH_BTN)).toBeInTheDocument();
+  it('has search input, 3 inputs of the radio type and a search button', async () => {
+    await waitFor(async () => {
+      expect(screen.getByTestId(SEARCH_INPUT)).toBeInTheDocument();
+      expect(screen.getByTestId(INGREDIENT_SEARCH_RADIO)).toBeInTheDocument();
+      expect(screen.getByTestId(NAME_SEARCH_RADIO)).toBeInTheDocument();
+      expect(screen.getByTestId(FIRST_LETTER_SEARCH_RADIO)).toBeInTheDocument();
+      expect(screen.getByTestId(EXEC_SEARCH_BTN)).toBeInTheDocument();
+    });
   });
 
   it('when search input has chicken and ingredient selected, fetch the correct url', () => {

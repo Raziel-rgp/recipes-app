@@ -12,11 +12,8 @@ function Meals() {
   useEffect(() => {
     const url = 'https://www.themealdb.com/api/json/v1/1/search.php?s=';
     getFoods(url);
-  }, [getFoods]);
-
-  useEffect(() => {
     setSite('themealdb');
-  }, [setSite]);
+  }, []);
 
   if (foods.meals === null) {
     global.alert('Sorry, we haven\'t found any recipes for these filters.');

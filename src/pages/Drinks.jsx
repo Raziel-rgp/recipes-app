@@ -12,11 +12,8 @@ function Drinks() {
   useEffect(() => {
     const url = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
     getFoods(url);
-  }, [getFoods]);
-
-  useEffect(() => {
     setSite('thecocktaildb');
-  }, [setSite]);
+  }, []);
 
   if (foods.drinks === null) {
     global.alert('Sorry, we haven\'t found any recipes for these filters.');
