@@ -1,0 +1,16 @@
+.card-container {
+  border: 0.517px solid #b1b1b1;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  height: 163.12px;
+  margin: 0 5px 10px;
+  width: 163.2px;
+}
+
+.card-img {
+  align-self: center;
+  border-radius: 5px 5px 0 0;
+  height: 134.85px;
+  width: 163.35px;
+}

@@ -8,16 +8,23 @@ function FoodsProvider({ children }) {
   const history = useHistory();
   const [foods, setFoods] = useState({});
   const [site, setSite] = useState('');
+  const [categories, setCategories] = useState();
 
   const getFoods = (url) => {
     fetchApi(url).then((data) => {
       setFoods(data);
       if (data.meals && data.meals.length === 1) {
         history.push(`/meals/${data.meals[0].idMeal}`);
-      } if (data.drinks && data.drinks.length === 1) {
+      }
+      if (data.drinks && data.drinks.length === 1) {
         history.push(`/drinks/${data.drinks[0].idDrink}`);
       }
     });
+  };
+
+  const getCategories = (url) => {
+    fetchApi(`https://www.${url}.com/api/json/v1/1/list.php?c=list`)
+      .then((data) => setCategories(data));
   };
 
   const contextType = {
@@ -25,6 +32,8 @@ function FoodsProvider({ children }) {
     getFoods,
     site,
     setSite,
+    getCategories,
+    categories,
   };
 
   return (
