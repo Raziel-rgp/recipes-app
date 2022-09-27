@@ -27,13 +27,22 @@ function FoodsProvider({ children }) {
       .then((data) => setCategories(data));
   };
 
+  const fetchCategory = (type, category) => {
+    fetchApi(`https://www.${type}.com/api/json/v1/1/filter.php?c=${category}`)
+      .then((categoryListFoods) => {
+        setFoods(categoryListFoods);
+      });
+  };
+
   const contextType = {
     foods,
+    setFoods,
     getFoods,
     site,
     setSite,
     getCategories,
     categories,
+    fetchCategory,
   };
 
   return (

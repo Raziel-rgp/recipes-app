@@ -1,24 +1,29 @@
 import React, { useContext, useEffect } from 'react';
-import FoodsCards from '../components/FoodsCards';
 import Header from '../components/Header';
 import FoodsContext from '../provider/FoodsContext';
 import Footer from '../components/Footer';
 import Categories from '../components/Categories';
+import Recipes from '../components/Recipes';
 
-const MAX_LENGTH_FOODS = 12;
 const MAX_LENGTH_CATEGORIES = 5;
 
 function Meals() {
   const {
-    foods, setSite, getFoods, getCategories, categories,
+    foods,
+    site,
+    setSite,
+    getFoods,
+    getCategories,
+    categories,
   } = useContext(FoodsContext);
 
+  const url = 'https://www.themealdb.com/api/json/v1/1/search.php?s=';
+
   useEffect(() => {
-    const url = 'https://www.themealdb.com/api/json/v1/1/search.php?s=';
-    const site = 'themealdb';
+    const api = 'themealdb';
     getFoods(url);
-    setSite(site);
-    getCategories(site);
+    setSite(api);
+    getCategories(api);
   }, []);
 
   useEffect(() => {
@@ -42,28 +47,29 @@ function Meals() {
                 return (<Categories
                   category={ strCategory }
                   key={ strCategory }
+                  id={ strCategory }
+                  site={ site }
                 />);
               }
               return undefined;
             })
           }
+          <button
+            type="button"
+            onClick={ () => getFoods(url) }
+            data-testid="All-category-filter"
+          >
+            All
+          </button>
         </div>
         <div className="foods-main-div">
           {
-            foods.meals && foods.meals.length && foods.meals.map(
-              (({ idMeal, strMeal, strMealThumb }, index) => {
-                if (index < MAX_LENGTH_FOODS) {
-                  return (<FoodsCards
-                    key={ idMeal }
-                    id={ idMeal }
-                    name={ strMeal }
-                    img={ strMealThumb }
-                    index={ index }
-                  />);
-                }
-                return undefined;
-              }),
-            )
+            foods.meals && foods.meals.length
+              && <Recipes
+                foods={ foods.meals }
+                siteKey="meals"
+                type={ { id: 'idMeal', str: 'strMeal', thumb: 'strMealThumb' } }
+              />
           }
         </div>
       </main>
