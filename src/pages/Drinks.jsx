@@ -78,6 +78,7 @@ function Drinks() {
                       name={ strDrink }
                       img={ strDrinkThumb }
                       index={ index }
+                      siteKey="drinks"
                     />
                   );
                 }

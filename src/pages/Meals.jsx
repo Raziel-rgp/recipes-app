@@ -75,6 +75,7 @@ function Meals() {
                       name={ strMeal }
                       img={ strMealThumb }
                       index={ index }
+                      siteKey="meals"
                     />
                   );
                 }
