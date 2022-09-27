@@ -7,7 +7,8 @@ import {
   DRINKS_BOTTOM_BTN,
 } from './utils/contants';
 import renderWithRouter from './utils/renderWithRouter';
-import { mockMeals, mockDrinks } from './utils/mockData';
+import mockDrinks from './mocks/mockDrinks';
+import mockMeals from './mocks/mockMeals';
 
 const MAX_LEGTH_CARDS = 12;
 

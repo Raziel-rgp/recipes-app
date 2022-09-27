@@ -7,7 +7,8 @@ import {
   DRINKS_BOTTOM_BTN, URL_CATEGORIES_MEALS, URL_CATEGORIES_DRINKS,
 } from './utils/contants';
 import renderWithRouter from './utils/renderWithRouter';
-import { mockMealsCategories, mockDrinksCategories } from './utils/mockData';
+import mockMealsCategories from './mocks/mockMealsCategories';
+import mockDrinksCategories from './mocks/mockDrinksCategories';
 
 const MIN_LENGTH_CATEGORIES = 5;
 

@@ -9,7 +9,7 @@ import {
   CHICKEN_FIRST_LETTER_URL, DRINKS_BOTTOM_BTN,
 } from './utils/contants';
 import renderWithRouter from './utils/renderWithRouter';
-import { mockMealChicken } from './utils/mockData';
+import mockMealChicken from './mocks/mockMealChicken';
 
 describe('tests for component SearchBar', () => {
   beforeEach(async () => {
