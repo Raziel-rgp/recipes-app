@@ -1,11 +1,10 @@
 import React, { useEffect, useContext } from 'react';
 import Header from '../components/Header';
 import FoodsContext from '../provider/FoodsContext';
-import FoodCard from '../components/FoodCard';
 import Footer from '../components/Footer';
 import Categories from '../components/Categories';
+import Recipes from '../components/Recipes';
 
-const MAX_LENGTH_DRINKS = 12;
 const MAX_LENGTH_CATEGORIES = 5;
 
 function Drinks() {
@@ -67,23 +66,12 @@ function Drinks() {
         </div>
         <div className="foods-main-div">
           {
-            foods.drinks && foods.drinks.length && foods.drinks.map(
-              ({ idDrink, strDrink, strDrinkThumb }, index) => {
-                if (index < MAX_LENGTH_DRINKS) {
-                  return (
-                    <FoodCard
-                      key={ idDrink }
-                      id={ idDrink }
-                      name={ strDrink }
-                      img={ strDrinkThumb }
-                      index={ index }
-                      siteKey="drinks"
-                    />
-                  );
-                }
-                return undefined;
-              },
-            )
+            foods.drinks && foods.drinks.length
+              && <Recipes
+                foods={ foods.drinks }
+                siteKey="drinks"
+                type={ { id: 'idDrink', str: 'strDrink', thumb: 'strDrinkThumb' } }
+              />
           }
         </div>
       </main>
