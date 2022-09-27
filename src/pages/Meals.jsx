@@ -53,13 +53,15 @@ function Meals() {
             foods.meals && foods.meals.length && foods.meals.map(
               (({ idMeal, strMeal, strMealThumb }, index) => {
                 if (index < MAX_LENGTH_FOODS) {
-                  return (<FoodsCards
-                    key={ idMeal }
-                    id={ idMeal }
-                    name={ strMeal }
-                    img={ strMealThumb }
-                    index={ index }
-                  />);
+                  return (
+                    <FoodsCards
+                      key={ idMeal }
+                      id={ idMeal }
+                      name={ strMeal }
+                      img={ strMealThumb }
+                      index={ index }
+                    />
+                  );
                 }
                 return undefined;
               }),
