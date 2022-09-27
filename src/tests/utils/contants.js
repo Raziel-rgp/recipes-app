@@ -21,3 +21,8 @@ export const CHICKEN_FIRST_LETTER_URL = 'https://www.themealdb.com/api/json/v1/1
 
 export const DRINKS_BOTTOM_BTN = 'drinks-bottom-btn';
 export const MEALS_BOTTOM_BTN = 'meals-bottom-btn';
+
+export const PROFILE_USER_EMAIL = 'profile-email';
+export const PROFILE_DONE_RECIPES_BTN = 'profile-done-btn';
+export const PROFILE_FAVORITE_RECIPES_BTN = 'profile-favorite-btn';
+export const PROFILE_LOGOUT_BTN = 'profile-logout-btn';
