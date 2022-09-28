@@ -12,17 +12,24 @@ function Drinks() {
     foods,
     site,
     setSite,
+    setSiteKey,
     getFoods,
     getCategories,
     categories,
   } = useContext(FoodsContext);
 
   const url = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
+  const typeObj = {
+    id: 'idDrink',
+    str: 'strDrink',
+    thumb: 'strDrinkThumb',
+  };
 
   useEffect(() => {
     const api = 'thecocktaildb';
-    getFoods(url);
     setSite(api);
+    setSiteKey('drinks');
+    getFoods(url);
     getCategories(api);
   }, []);
 
@@ -67,11 +74,7 @@ function Drinks() {
         <div className="foods-main-div">
           {
             foods.drinks && foods.drinks.length
-              && <Recipes
-                foods={ foods.drinks }
-                siteKey="drinks"
-                type={ { id: 'idDrink', str: 'strDrink', thumb: 'strDrinkThumb' } }
-              />
+              && <Recipes foods={ foods.drinks } type={ typeObj } />
           }
         </div>
       </main>

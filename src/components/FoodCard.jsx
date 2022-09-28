@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import '../styles/FoodsCards.css';
 import { useHistory } from 'react-router-dom';
+import FoodsContext from '../provider/FoodsContext';
 
-function FoodsCards({ id, name, img, index, siteKey }) {
+function FoodCards({ id, name, img, index }) {
   const history = useHistory();
+  const { siteKey } = useContext(FoodsContext);
   return (
     <button
       type="button"
@@ -30,12 +32,11 @@ function FoodsCards({ id, name, img, index, siteKey }) {
   );
 }
 
-FoodsCards.propTypes = {
+FoodCards.propTypes = {
   id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   img: PropTypes.string.isRequired,
-  siteKey: PropTypes.string.isRequired,
   index: PropTypes.number.isRequired,
 };
 
-export default FoodsCards;
+export default FoodCards;

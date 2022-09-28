@@ -8,6 +8,7 @@ function FoodsProvider({ children }) {
   const history = useHistory();
   const [foods, setFoods] = useState({});
   const [site, setSite] = useState('');
+  const [siteKey, setSiteKey] = useState('');
   const [categories, setCategories] = useState();
 
   const getFoods = (url) => {
@@ -40,6 +41,8 @@ function FoodsProvider({ children }) {
     getFoods,
     site,
     setSite,
+    siteKey,
+    setSiteKey,
     getCategories,
     categories,
     fetchCategory,

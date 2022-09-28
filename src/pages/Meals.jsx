@@ -12,17 +12,24 @@ function Meals() {
     foods,
     site,
     setSite,
+    setSiteKey,
     getFoods,
     getCategories,
     categories,
   } = useContext(FoodsContext);
 
   const url = 'https://www.themealdb.com/api/json/v1/1/search.php?s=';
+  const typeObj = {
+    id: 'idMeal',
+    str: 'strMeal',
+    thumb: 'strMealThumb',
+  };
 
   useEffect(() => {
     const api = 'themealdb';
-    getFoods(url);
     setSite(api);
+    setSiteKey('meals');
+    getFoods(url);
     getCategories(api);
   }, []);
 
@@ -65,11 +72,7 @@ function Meals() {
         <div className="foods-main-div">
           {
             foods.meals && foods.meals.length
-              && <Recipes
-                foods={ foods.meals }
-                siteKey="meals"
-                type={ { id: 'idMeal', str: 'strMeal', thumb: 'strMealThumb' } }
-              />
+              && <Recipes foods={ foods.meals } type={ typeObj } />
           }
         </div>
       </main>
