@@ -14,8 +14,16 @@ function Routes() {
     <Switch>
       <Route exact path="/meals/:id/in-progress" component={ RecipeInProgress } />
       <Route exact path="/drinks/:id/in-progress" component={ RecipeInProgress } />
-      <Route exact path="/meals/:id" component={ RecipeDetails } />
-      <Route exact path="/drinks/:id" component={ RecipeDetails } />
+      <Route
+        exact
+        path="/meals/:id"
+        render={ (props) => <RecipeDetails { ...props } site="themealdb" /> }
+      />
+      <Route
+        exact
+        path="/drinks/:id"
+        render={ (props) => <RecipeDetails { ...props } site="thecocktaildb" /> }
+      />
       <Route exact path="/favorite-recipes" component={ FavoriteRecipes } />
       <Route exact path="/done-recipes" component={ DoneRecipes } />
       <Route exact path="/drinks" component={ Drinks } />
