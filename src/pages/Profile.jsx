@@ -6,7 +6,6 @@ import Footer from '../components/Footer';
 function Profile() {
   const history = useHistory();
   const userEmail = JSON.parse(localStorage.getItem('user'));
-  console.log(userEmail);
   const handleLogout = () => {
     localStorage.clear();
     history.push('/');
