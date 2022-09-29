@@ -34,6 +34,8 @@ function Routes() {
               site="themealdb"
               siteKey="meals"
               typeKeysObj={ mealsObj }
+              carouselKey="drinks"
+              carouselObjKeys={ drinksObj }
             />)
         }
       />
@@ -47,6 +49,8 @@ function Routes() {
               site="thecocktaildb"
               siteKey="drinks"
               typeKeysObj={ drinksObj }
+              carouselKey="meals"
+              carouselObjKeys={ mealsObj }
             />)
         }
       />

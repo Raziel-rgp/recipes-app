@@ -2,11 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import fetchApi from '../services/fetchApi';
+import '../styles/RecipesDetails.css';
 
-function RecipeDetails({ site, siteKey, typeKeysObj }) {
+function RecipeDetails({ site, siteKey, typeKeysObj, carouselKey, carouselObjKeys }) {
   const [recipeDetails, setRecipeDetails] = useState();
-  const [recomends, setRecomends] = useState([]);
+  const [recommendation, setRecommendation] = useState({ [carouselKey]: [] });
   const [ingredientsValues, setIngredientsValues] = useState([]);
+  const MAX_LENGTH = 6;
 
   const { id } = useParams();
   useEffect(() => {
@@ -15,15 +17,15 @@ function RecipeDetails({ site, siteKey, typeKeysObj }) {
 
     if (siteKey === 'meals') {
       fetchApi('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=')
-        .then((response) => setRecomends(response[siteKey]));
+        .then((response) => setRecommendation(response));
     } else if (siteKey === 'drinks') {
       fetchApi('https://www.themealdb.com/api/json/v1/1/search.php?s=')
-        .then((response) => setRecomends(response[siteKey]));
+        .then((response) => setRecommendation(response));
     }
   }, []);
 
   useEffect(() => {
-    if (recipeDetails !== undefined) {
+    if (recipeDetails) {
       const ingredientsFiltered = Object.entries(recipeDetails)
         .filter((detail) => detail[0].includes('Ingredient')
           && detail[1] !== ''
@@ -40,10 +42,6 @@ function RecipeDetails({ site, siteKey, typeKeysObj }) {
       setIngredientsValues(ingredientsAndMeasures);
     }
   }, [recipeDetails]);
-
-  useEffect(() => {
-
-  }, [recomends]);
 
   return (
     recipeDetails !== undefined
@@ -79,10 +77,47 @@ function RecipeDetails({ site, siteKey, typeKeysObj }) {
         <button
           type="button"
           data-testid="start-recipe-btn"
-          style={ { position: 'fixed', bottom: '0px' } }
+          style={ { position: 'fixed', bottom: '0px', zIndex: '10' } }
         >
           Start Recipe
         </button>
+        {
+          recommendation !== undefined
+            && (
+              <div>
+                <h3>Recomendations</h3>
+                <div
+                  id="recommendation-carousel"
+                >
+                  {
+                    recommendation[carouselKey].map((item, index) => {
+                      if (index < MAX_LENGTH) {
+                        return (
+                          <div
+                            className="carousel-card"
+                            data-testid={ `${index}-recommendation-card` }
+                            key={ item[carouselObjKeys.name] }
+                          >
+                            <h3
+                              data-testid={ `${index}-recommendation-title` }
+                            >
+                              { item[carouselObjKeys.name] }
+                            </h3>
+                            <img
+                              className="carousel-images"
+                              src={ item[carouselObjKeys.img] }
+                              alt=""
+                            />
+                          </div>
+                        );
+                      }
+                      return undefined;
+                    })
+                  }
+                </div>
+              </div>
+            )
+        }
         {
           siteKey === 'meals'
           && (
@@ -105,7 +140,9 @@ function RecipeDetails({ site, siteKey, typeKeysObj }) {
 RecipeDetails.propTypes = {
   site: PropTypes.string.isRequired,
   siteKey: PropTypes.string.isRequired,
+  carouselKey: PropTypes.string.isRequired,
   typeKeysObj: PropTypes.shape(PropTypes.string.isRequired).isRequired,
+  carouselObjKeys: PropTypes.shape(PropTypes.string.isRequired).isRequired,
 };
 
 export default RecipeDetails;
