@@ -1,6 +1,7 @@
 import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
+import copy from 'clipboard-copy';
 import App from '../App';
 import {
   FILTER_BY_ALL_BTN, FILTER_BY_MEAL_BTN, FILTER_BY_DRINK_BTN, HORIZONTAL_NAME_0,
@@ -9,8 +10,14 @@ import {
 import renderWithRouter from './utils/renderWithRouter';
 import mockDoneRecipes from './mocks/mockDoneRecipes';
 
+jest.mock('clipboard-copy');
+
 describe('tests for page DoneRecipes', () => {
   beforeEach(() => {
+    navigator.clipboard = {
+      writeText: jest.fn(),
+    };
+
     const { history } = renderWithRouter(<App />);
 
     localStorage.setItem('doneRecipes', JSON.stringify(mockDoneRecipes));
@@ -71,13 +78,17 @@ describe('tests for page DoneRecipes', () => {
     });
   });
 
-  // it('when click in shared button, the details recipe is copy to clipboard', async () => {
-  //   await waitFor(() => {
-  //     userEvent.click(screen.getByTestId('0-horizontal-share-btn'));
-  //     expect(screen.getByText(/link copied!/i)).toBeInTheDocument();
-  //     // expect().toHaveBeenCalledWith('copy');
-  //   });
-  // });
+  it('when click in shared button, the details recipe is copy to clipboard', async () => {
+    userEvent.click(await screen.findByTestId('0-horizontal-share-btn'));
+
+    expect(screen.getByText(/link copied!/i)).toBeInTheDocument();
+    expect(copy).toBeCalledWith('http://localhost/meals/52771');
+    await waitFor(() => expect(screen.queryByText(/link copied!/i)).not.toBeInTheDocument(), { timeout: 3000 });
+
+    userEvent.click(await screen.findByTestId('1-horizontal-share-btn'));
+    expect(copy).toBeCalledWith('http://localhost/drinks/178319');
+    expect(copy).toBeCalledTimes(2);
+  });
 
   it('when click in filter by meal, drink or all, correct cards are rendered', async () => {
     await waitFor(() => {

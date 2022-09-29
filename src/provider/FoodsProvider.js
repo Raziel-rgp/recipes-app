@@ -11,6 +11,7 @@ function FoodsProvider({ children }) {
   const [siteKey, setSiteKey] = useState('');
   const [categories, setCategories] = useState();
   const [doneRecipes, setDoneRecipes] = useState([]);
+  const [inProgressRecipe, setInProgressRecipe] = useState({});
 
   const getFoods = (url) => {
     fetchApi(url).then((data) => {
@@ -51,6 +52,11 @@ function FoodsProvider({ children }) {
     }
   };
 
+  const getRecipeInProgress = (siteFood, id) => {
+    const url = (`https://www.${siteFood}.com/api/json/v1/1/lookup.php?i=${id}`);
+    fetchApi(url).then((data) => setInProgressRecipe(data));
+  };
+
   const contextType = {
     foods,
     setFoods,
@@ -58,7 +64,9 @@ function FoodsProvider({ children }) {
     site,
     setSite,
     siteKey,
+    getRecipeInProgress,
     setSiteKey,
+    inProgressRecipe,
     getCategories,
     categories,
     fetchCategory,
