@@ -3,28 +3,22 @@ import { useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import fetchApi from '../services/fetchApi';
 
-function RecipeDetails({ site, siteKey }) {
+function RecipeDetails({ site, siteKey, typeKeysObj }) {
   const [recipeDetails, setRecipeDetails] = useState();
+  const [recomends, setRecomends] = useState([]);
   const [ingredientsValues, setIngredientsValues] = useState([]);
 
-  const [typeKeys, setTypeKeys] = useState({});
   const { id } = useParams();
   useEffect(() => {
     const url = (`https://www.${site}.com/api/json/v1/1/lookup.php?i=${id}`);
-    fetchApi(url)
-      .then((result) => {
-        setRecipeDetails(result[siteKey][0]);
-      });
-    if (siteKey === 'drinks') {
-      setTypeKeys({
-        thumbKey: 'strDrinkThumb',
-        nameKey: 'strDrink',
-      });
-    } else {
-      setTypeKeys({
-        thumbKey: 'strMealThumb',
-        nameKey: 'strMeal',
-      });
+    fetchApi(url).then((result) => setRecipeDetails(result[siteKey][0]));
+
+    if (siteKey === 'meals') {
+      fetchApi('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=')
+        .then((response) => setRecomends(response[siteKey]));
+    } else if (siteKey === 'drinks') {
+      fetchApi('https://www.themealdb.com/api/json/v1/1/search.php?s=')
+        .then((response) => setRecomends(response[siteKey]));
     }
   }, []);
 
@@ -47,20 +41,24 @@ function RecipeDetails({ site, siteKey }) {
     }
   }, [recipeDetails]);
 
+  useEffect(() => {
+
+  }, [recomends]);
+
   return (
     recipeDetails !== undefined
     && (
       <div>
         <img
           data-testid="recipe-photo"
-          src={ recipeDetails[typeKeys.thumbKey] }
+          src={ recipeDetails[typeKeysObj.img] }
           alt="Recipe"
           style={ { width: '100%' } }
         />
         <h1
           data-testid="recipe-title"
         >
-          { recipeDetails[typeKeys.nameKey] }
+          { recipeDetails[typeKeysObj.name] }
         </h1>
         {
           siteKey === 'drinks'
@@ -107,6 +105,7 @@ function RecipeDetails({ site, siteKey }) {
 RecipeDetails.propTypes = {
   site: PropTypes.string.isRequired,
   siteKey: PropTypes.string.isRequired,
+  typeKeysObj: PropTypes.shape(PropTypes.string.isRequired).isRequired,
 };
 
 export default RecipeDetails;
