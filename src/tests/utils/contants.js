@@ -24,3 +24,14 @@ export const MEALS_BOTTOM_BTN = 'meals-bottom-btn';
 
 export const URL_CATEGORIES_MEALS = 'https://www.themealdb.com/api/json/v1/1/list.php?c=list';
 export const URL_CATEGORIES_DRINKS = 'https://www.thecocktaildb.com/api/json/v1/1/list.php?c=list';
+
+export const PROFILE_USER_EMAIL = 'profile-email';
+export const PROFILE_DONE_RECIPES_BTN = 'profile-done-btn';
+export const PROFILE_FAVORITE_RECIPES_BTN = 'profile-favorite-btn';
+export const PROFILE_LOGOUT_BTN = 'profile-logout-btn';
+
+export const FILTER_BY_ALL_BTN = 'filter-by-all-btn';
+export const FILTER_BY_MEAL_BTN = 'filter-by-meal-btn';
+export const FILTER_BY_DRINK_BTN = 'filter-by-drink-btn';
+export const HORIZONTAL_NAME_0 = '0-horizontal-name';
+export const HORIZONTAL_NAME_1 = '1-horizontal-name';
