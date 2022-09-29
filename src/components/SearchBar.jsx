@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import FoodsContext from '../services/provider/FoodsContext';
+import FoodsContext from '../provider/FoodsContext';
 
 function SearchBar() {
   const [filterSearch, setFilterSearch] = useState({

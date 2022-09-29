@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import fetchApi from '../services/fetchApi';
 
 function RecipeDetails({ site, siteKey }) {
   const [recipeDetails, setRecipeDetails] = useState();
   const [ingredientsValues, setIngredientsValues] = useState([]);
+  const history = useHistory();
 
   const [typeKeys, setTypeKeys] = useState({});
   const { id } = useParams();
@@ -47,6 +48,10 @@ function RecipeDetails({ site, siteKey }) {
     }
   }, [recipeDetails]);
 
+  const handleOnClick = () => {
+    history.push('/done-recipes');
+  };
+
   return (
     recipeDetails !== undefined
     && (
@@ -82,6 +87,7 @@ function RecipeDetails({ site, siteKey }) {
           type="button"
           data-testid="start-recipe-btn"
           style={ { position: 'fixed', bottom: '0px' } }
+          onClick={ handleOnClick }
         >
           Start Recipe
         </button>
