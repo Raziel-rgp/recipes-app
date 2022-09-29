@@ -9,6 +9,7 @@ function FoodsProvider({ children }) {
   const [foods, setFoods] = useState({});
   const [site, setSite] = useState('');
   const [categories, setCategories] = useState();
+  const [doneRecipes, setDoneRecipes] = useState([]);
 
   const getFoods = (url) => {
     fetchApi(url).then((data) => {
@@ -34,6 +35,21 @@ function FoodsProvider({ children }) {
       });
   };
 
+  const getDoneRecipes = () => {
+    const doneRecipesStorage = JSON.parse(localStorage.getItem('doneRecipes'));
+    setDoneRecipes(doneRecipesStorage || []);
+  };
+
+  const filteredDoneRecipes = (type) => {
+    const doneRecipesStorage = JSON.parse(localStorage.getItem('doneRecipes'));
+    if (type === 'all') {
+      setDoneRecipes(doneRecipesStorage);
+    } else {
+      const filteredRecipes = doneRecipesStorage.filter((recipe) => recipe.type === type);
+      setDoneRecipes(filteredRecipes);
+    }
+  };
+
   const contextType = {
     foods,
     setFoods,
@@ -43,6 +59,9 @@ function FoodsProvider({ children }) {
     getCategories,
     categories,
     fetchCategory,
+    getDoneRecipes,
+    doneRecipes,
+    filteredDoneRecipes,
   };
 
   return (
