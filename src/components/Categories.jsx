@@ -16,7 +16,7 @@ function Categories({ category, id, site }) {
   };
 
   return (
-    <div>
+    <div className="category-btn">
       <button
         id={ id }
         type="button"

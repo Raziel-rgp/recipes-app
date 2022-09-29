@@ -17,12 +17,16 @@ function Routes() {
       <Route
         exact
         path="/meals/:id"
-        render={ (props) => <RecipeDetails { ...props } site="themealdb" /> }
+        render={
+          (props) => <RecipeDetails { ...props } site="themealdb" siteKey="meals" />
+        }
       />
       <Route
         exact
         path="/drinks/:id"
-        render={ (props) => <RecipeDetails { ...props } site="thecocktaildb" /> }
+        render={
+          (props) => <RecipeDetails { ...props } site="thecocktaildb" siteKey="drinks" />
+        }
       />
       <Route exact path="/favorite-recipes" component={ FavoriteRecipes } />
       <Route exact path="/done-recipes" component={ DoneRecipes } />

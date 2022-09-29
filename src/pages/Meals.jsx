@@ -46,22 +46,25 @@ function Meals() {
     <section>
       <Header title="Meals" iconSearch />
       <main className="foods-main-container">
-        <div>
+        <div className="categories-container">
           {
             categories && categories.meals
             && categories.meals.map(({ strCategory }, index) => {
               if (index < MAX_LENGTH_CATEGORIES) {
-                return (<Categories
-                  category={ strCategory }
-                  key={ strCategory }
-                  id={ strCategory }
-                  site={ site }
-                />);
+                return (
+                  <Categories
+                    category={ strCategory }
+                    key={ strCategory }
+                    id={ strCategory }
+                    site={ site }
+                  />
+                );
               }
               return undefined;
             })
           }
           <button
+            className="all-filters-button"
             type="button"
             onClick={ () => getFoods(url) }
             data-testid="All-category-filter"

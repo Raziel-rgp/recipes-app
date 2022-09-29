@@ -46,7 +46,7 @@ function Drinks() {
     <section>
       <Header title="Drinks" iconSearch />
       <main className="foods-main-container">
-        <div>
+        <div className="categories-container">
           {
             categories && categories.drinks
             && categories.drinks.map(({ strCategory }, index) => {
@@ -64,11 +64,12 @@ function Drinks() {
             })
           }
           <button
+            className="all-filters-button"
             type="button"
             onClick={ () => getFoods(url) }
             data-testid="All-category-filter"
           >
-            All
+            <p>All</p>
           </button>
         </div>
         <div className="foods-main-div">
