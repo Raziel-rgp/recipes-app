@@ -97,7 +97,6 @@ function RecipeDetails({ site, siteKey }) {
       </div>
     )
   );
-  // );
 }
 
 RecipeDetails.propTypes = {
