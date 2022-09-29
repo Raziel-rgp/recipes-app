@@ -13,7 +13,6 @@ function RecipeDetails({ site, siteKey }) {
     const url = (`https://www.${site}.com/api/json/v1/1/lookup.php?i=${id}`);
     fetchApi(url)
       .then((result) => {
-        console.log(result[siteKey][0]);
         setRecipeDetails(result[siteKey][0]);
       });
     if (siteKey === 'drinks') {
@@ -44,7 +43,6 @@ function RecipeDetails({ site, siteKey }) {
       ingredientsFiltered.forEach((ingredient, i) => {
         ingredientsAndMeasures.push(`${measuresValues[i]} ${ingredient[1]}`);
       });
-      console.log(ingredientsAndMeasures);
       setIngredientsValues(ingredientsAndMeasures);
     }
   }, [recipeDetails]);
@@ -80,6 +78,13 @@ function RecipeDetails({ site, siteKey }) {
           )) }
         </ul>
         <p data-testid="instructions">{ recipeDetails.strInstructions }</p>
+        <button
+          type="button"
+          data-testid="start-recipe-btn"
+          style={ { position: 'fixed', bottom: '0px' } }
+        >
+          Start Recipe
+        </button>
         {
           siteKey === 'meals'
           && (
