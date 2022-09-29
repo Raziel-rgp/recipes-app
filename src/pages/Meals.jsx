@@ -12,17 +12,24 @@ function Meals() {
     foods,
     site,
     setSite,
+    setSiteKey,
     getFoods,
     getCategories,
     categories,
   } = useContext(FoodsContext);
 
   const url = 'https://www.themealdb.com/api/json/v1/1/search.php?s=';
+  const typeObj = {
+    id: 'idMeal',
+    str: 'strMeal',
+    thumb: 'strMealThumb',
+  };
 
   useEffect(() => {
     const api = 'themealdb';
-    getFoods(url);
     setSite(api);
+    setSiteKey('meals');
+    getFoods(url);
     getCategories(api);
   }, []);
 
@@ -39,22 +46,25 @@ function Meals() {
     <section>
       <Header title="Meals" iconSearch />
       <main className="foods-main-container">
-        <div>
+        <div className="categories-container">
           {
             categories && categories.meals
             && categories.meals.map(({ strCategory }, index) => {
               if (index < MAX_LENGTH_CATEGORIES) {
-                return (<Categories
-                  category={ strCategory }
-                  key={ strCategory }
-                  id={ strCategory }
-                  site={ site }
-                />);
+                return (
+                  <Categories
+                    category={ strCategory }
+                    key={ strCategory }
+                    id={ strCategory }
+                    site={ site }
+                  />
+                );
               }
               return undefined;
             })
           }
           <button
+            className="all-filters-button"
             type="button"
             onClick={ () => getFoods(url) }
             data-testid="All-category-filter"
@@ -65,11 +75,7 @@ function Meals() {
         <div className="foods-main-div">
           {
             foods.meals && foods.meals.length
-              && <Recipes
-                foods={ foods.meals }
-                siteKey="meals"
-                type={ { id: 'idMeal', str: 'strMeal', thumb: 'strMealThumb' } }
-              />
+              && <Recipes foods={ foods.meals } type={ typeObj } />
           }
         </div>
       </main>

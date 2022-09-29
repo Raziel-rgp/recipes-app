@@ -1,7 +1,7 @@
 import React from 'react';
 import FoodCard from './FoodCard';
 
-function Recipes({ foods, siteKey, type }) {
+function Recipes({ foods, type }) {
   const MAX_LENGTH_FOODS = 12;
   const {
     id,
@@ -20,7 +20,6 @@ function Recipes({ foods, siteKey, type }) {
               name={ food[str] }
               img={ food[thumb] }
               index={ index }
-              siteKey={ siteKey }
             />
           );
         }

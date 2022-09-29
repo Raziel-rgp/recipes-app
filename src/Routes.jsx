@@ -1,12 +1,10 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
-import DetailsDrink from './pages/DetailsDrink';
-import DetailsMeal from './pages/DetailsMeal';
+import RecipeDetails from './pages/RecipeDetails';
 import DoneRecipes from './pages/DoneRecipes';
 import Drinks from './pages/Drinks';
 import FavoriteRecipes from './pages/FavoriteRecipes';
-import InProgressDrink from './pages/InProgressDrink';
-import InProgressMeal from './pages/InProgressMeal';
+import RecipeInProgress from './pages/RecipeInProgress';
 import Login from './pages/Login';
 import Meals from './pages/Meals';
 import Profile from './pages/Profile';
@@ -14,10 +12,22 @@ import Profile from './pages/Profile';
 function Routes() {
   return (
     <Switch>
-      <Route exact path="/meals/:id/in-progress" component={ InProgressMeal } />
-      <Route exact path="/drinks/:id/in-progress" component={ InProgressDrink } />
-      <Route exact path="/meals/:id" component={ DetailsMeal } />
-      <Route exact path="/drinks/:id" component={ DetailsDrink } />
+      <Route exact path="/meals/:id/in-progress" component={ RecipeInProgress } />
+      <Route exact path="/drinks/:id/in-progress" component={ RecipeInProgress } />
+      <Route
+        exact
+        path="/meals/:id"
+        render={
+          (props) => <RecipeDetails { ...props } site="themealdb" siteKey="meals" />
+        }
+      />
+      <Route
+        exact
+        path="/drinks/:id"
+        render={
+          (props) => <RecipeDetails { ...props } site="thecocktaildb" siteKey="drinks" />
+        }
+      />
       <Route exact path="/favorite-recipes" component={ FavoriteRecipes } />
       <Route exact path="/done-recipes" component={ DoneRecipes } />
       <Route exact path="/drinks" component={ Drinks } />

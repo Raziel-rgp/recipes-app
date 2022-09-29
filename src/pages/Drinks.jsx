@@ -12,17 +12,24 @@ function Drinks() {
     foods,
     site,
     setSite,
+    setSiteKey,
     getFoods,
     getCategories,
     categories,
   } = useContext(FoodsContext);
 
   const url = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
+  const typeObj = {
+    id: 'idDrink',
+    str: 'strDrink',
+    thumb: 'strDrinkThumb',
+  };
 
   useEffect(() => {
     const api = 'thecocktaildb';
-    getFoods(url);
     setSite(api);
+    setSiteKey('drinks');
+    getFoods(url);
     getCategories(api);
   }, []);
 
@@ -39,7 +46,7 @@ function Drinks() {
     <section>
       <Header title="Drinks" iconSearch />
       <main className="foods-main-container">
-        <div>
+        <div className="categories-container">
           {
             categories && categories.drinks
             && categories.drinks.map(({ strCategory }, index) => {
@@ -57,21 +64,18 @@ function Drinks() {
             })
           }
           <button
+            className="all-filters-button"
             type="button"
             onClick={ () => getFoods(url) }
             data-testid="All-category-filter"
           >
-            All
+            <p>All</p>
           </button>
         </div>
         <div className="foods-main-div">
           {
             foods.drinks && foods.drinks.length
-              && <Recipes
-                foods={ foods.drinks }
-                siteKey="drinks"
-                type={ { id: 'idDrink', str: 'strDrink', thumb: 'strDrinkThumb' } }
-              />
+              && <Recipes foods={ foods.drinks } type={ typeObj } />
           }
         </div>
       </main>
