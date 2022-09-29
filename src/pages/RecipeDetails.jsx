@@ -87,32 +87,34 @@ function RecipeDetails({ site, siteKey, typeKeysObj, carouselKey, carouselObjKey
               <div>
                 <h3>Recomendations</h3>
                 <div
-                  id="recommendation-carousel"
+                  className="recommendation-carousel"
                 >
                   {
-                    recommendation[carouselKey].map((item, index) => {
-                      if (index < MAX_LENGTH) {
-                        return (
-                          <div
-                            className="carousel-card"
-                            data-testid={ `${index}-recommendation-card` }
-                            key={ item[carouselObjKeys.name] }
-                          >
-                            <h3
-                              data-testid={ `${index}-recommendation-title` }
+                    recommendation[carouselKey]
+                    && (
+                      recommendation[carouselKey].map((item, index) => {
+                        if (index < MAX_LENGTH) {
+                          return (
+                            <div
+                              className="carousel-card"
+                              data-testid={ `${index}-recommendation-card` }
+                              key={ item[carouselObjKeys.name] }
                             >
-                              { item[carouselObjKeys.name] }
-                            </h3>
-                            <img
-                              className="carousel-images"
-                              src={ item[carouselObjKeys.img] }
-                              alt=""
-                            />
-                          </div>
-                        );
-                      }
-                      return undefined;
-                    })
+                              <h3
+                                data-testid={ `${index}-recommendation-title` }
+                              >
+                                { item[carouselObjKeys.name] }
+                              </h3>
+                              <img
+                                className="carousel-images"
+                                src={ item[carouselObjKeys.img] }
+                                alt=""
+                              />
+                            </div>
+                          );
+                        }
+                        return undefined;
+                      }))
                   }
                 </div>
               </div>
