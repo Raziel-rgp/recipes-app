@@ -49,3 +49,5 @@ export const HORIZONTAL_IMAGE_1 = '1-horizontal-image';
 
 export const UNFAVORITE_BTN_0 = '0-horizontal-favorite-btn';
 export const UNFAVORITE_BTN_1 = '1-horizontal-favorite-btn';
+
+export const ONE_DRINK_INGREDIENTS = ['Hpnotiq', 'Pineapple Juice', 'Banana Liqueur'];

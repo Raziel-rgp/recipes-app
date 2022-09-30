@@ -1,15 +1,16 @@
 import React, { useEffect, useContext } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
 import FoodsContext from '../provider/FoodsContext';
 import RecipeInProgressCard from '../components/RecipeInProgressCard';
 
 function RecipeInProgress() {
   const { id } = useParams();
+  const { pathname } = useLocation();
   const { getRecipeInProgress, inProgressRecipe } = useContext(FoodsContext);
 
   let site = 'thecocktaildb';
   let typeFood = 'drinks';
-  if (window.document.location.href.includes('meals')) {
+  if (pathname.includes('meals')) {
     site = 'themealdb';
     typeFood = 'meals';
   }
