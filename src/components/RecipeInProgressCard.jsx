@@ -9,7 +9,9 @@ import FinishRecipeBtn from './FinishRecipeBtn';
 import FavoriteBtn from './FavoriteBtn';
 import IngredientsStep from './IngredientsStep';
 
-function RecipeInProgressCard({ image, title, id, category, instructions, ingredients }) {
+function RecipeInProgressCard(
+  { type, image, title, id, category, instructions, ingredients },
+) {
   return (
     <section>
       <div>
@@ -21,7 +23,7 @@ function RecipeInProgressCard({ image, title, id, category, instructions, ingred
           <FavoriteBtn />
         </div>
       </div>
-      <IngredientsStep ingredients={ ingredients } />
+      <IngredientsStep type={ type } id={ id } ingredients={ ingredients } />
       <Instructions instructions={ instructions } />
       <FinishRecipeBtn />
     </section>
@@ -34,6 +36,7 @@ RecipeInProgressCard.propTypes = {
   id: PropTypes.string,
   category: PropTypes.string,
   instructions: PropTypes.string,
+  type: PropTypes.string,
 }.isRequired;
 
 export default RecipeInProgressCard;

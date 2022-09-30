@@ -7,15 +7,15 @@ import {
   DRINKS_BOTTOM_BTN, URL_CATEGORIES_MEALS, URL_CATEGORIES_DRINKS,
 } from './utils/contants';
 import renderWithRouter from './utils/renderWithRouter';
-import mockMealsCategories from './mocks/mockMealsCategories';
-import mockDrinksCategories from './mocks/mockDrinksCategories';
+import mealsCategories from './mocks/mealsCategories';
+import drinksCategories from './mocks/drinksCategories';
 
 const MIN_LENGTH_CATEGORIES = 5;
 
 describe('test for component Categories', () => {
   beforeEach(() => {
     global.fetch = jest.fn(() => Promise.resolve({
-      json: () => Promise.resolve(mockMealsCategories),
+      json: () => Promise.resolve(mealsCategories),
     }));
 
     renderWithRouter(<App />);
@@ -29,7 +29,7 @@ describe('test for component Categories', () => {
 
   it('a fetch is made to get the meals categories', async () => {
     expect(fetch).toHaveBeenCalledWith(URL_CATEGORIES_MEALS);
-    await waitFor(() => mockMealsCategories.meals.forEach(({ strCategory }, index) => {
+    await waitFor(() => mealsCategories.meals.forEach(({ strCategory }, index) => {
       if (index < MIN_LENGTH_CATEGORIES) {
         expect(screen.getByTestId(`${strCategory}-category-filter`)).toBeInTheDocument();
       }
@@ -38,13 +38,13 @@ describe('test for component Categories', () => {
 
   it('a fetch is made to get the drinks categories', async () => {
     global.fetch = jest.fn(() => Promise.resolve({
-      json: () => Promise.resolve(mockDrinksCategories),
+      json: () => Promise.resolve(drinksCategories),
     }));
 
     userEvent.click(screen.getByTestId(DRINKS_BOTTOM_BTN));
 
     expect(fetch).toHaveBeenCalledWith(URL_CATEGORIES_DRINKS);
-    await waitFor(() => mockDrinksCategories.drinks.forEach(
+    await waitFor(() => drinksCategories.drinks.forEach(
       ({ strCategory: category }, index) => {
         if (index < MIN_LENGTH_CATEGORIES) {
           expect(screen.getByTestId(`${category}-category-filter`)).toBeInTheDocument();

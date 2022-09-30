@@ -16,6 +16,13 @@ function RecipeInProgress() {
 
   useEffect(() => {
     getRecipeInProgress(site, id);
+    if (!JSON.parse(localStorage.getItem('inProgressRecipes'))) {
+      const inProgressRecipes = {
+        drinks: {},
+        meals: {},
+      };
+      localStorage.setItem('inProgressRecipes', JSON.stringify(inProgressRecipes));
+    }
   }, []);
 
   const getIngredients = (food) => {
@@ -40,6 +47,7 @@ function RecipeInProgress() {
           image={ strMealThumb }
           title={ strMeal }
           id={ idMeal }
+          type={ typeFood }
           category={ strCategory }
           ingredients={ getIngredients(food) }
           instructions={ strInstructions }
@@ -52,6 +60,7 @@ function RecipeInProgress() {
         image={ strDrinkThumb }
         title={ strDrink }
         id={ idDrink }
+        type={ typeFood }
         ingredients={ getIngredients(food) }
         category={ strCategory }
         instructions={ strInstructions }

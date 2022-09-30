@@ -1,4 +1,4 @@
-const mockMeals = {
+const meals = {
   meals: [
     {
       idMeal: '52977',
@@ -68,4 +68,4 @@ const mockMeals = {
   ],
 };
 
-export default mockMeals;
+export default meals;

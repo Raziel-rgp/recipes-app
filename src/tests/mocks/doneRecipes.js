@@ -1,4 +1,4 @@
-const mockDoneRecipes = [
+const doneRecipes = [
   {
     id: '52771',
     type: 'meal',
@@ -23,4 +23,4 @@ const mockDoneRecipes = [
   },
 ];
 
-export default mockDoneRecipes;
+export default doneRecipes;

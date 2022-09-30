@@ -30,7 +30,8 @@ function ShareBtn({ id, index, type }) {
         <img
           src={ shareIcon }
           alt="Share icon"
-          data-testid={ index ? `${index}-horizontal-share-btn` : 'share-btn' }
+          data-testid={ typeof index === 'number'
+            ? `${index}-horizontal-share-btn` : 'share-btn' }
         />
       </button>
       { copied && <p>Link copied!</p> }
