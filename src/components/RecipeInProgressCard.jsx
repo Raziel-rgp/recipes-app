@@ -10,7 +10,8 @@ import FavoriteBtn from './FavoriteBtn';
 import IngredientsStep from './IngredientsStep';
 
 function RecipeInProgressCard(
-  { type, image, title, id, category, instructions, ingredients },
+  { type, image, title, id, category, instructions, ingredients,
+    alcoholicOrNot, nationality },
 ) {
   return (
     <section>
@@ -19,8 +20,16 @@ function RecipeInProgressCard(
         <RecipeCategory category={ category } />
         <RecipeTitle title={ title } />
         <div>
-          <ShareBtn id={ id } type="drinks" />
-          <FavoriteBtn />
+          <ShareBtn id={ id } type={ type } />
+          <FavoriteBtn
+            id={ id }
+            category={ category }
+            name={ title }
+            alcoholicOrNot={ alcoholicOrNot }
+            nationality={ nationality }
+            image={ image }
+            type={ type }
+          />
         </div>
       </div>
       <IngredientsStep type={ type } id={ id } ingredients={ ingredients } />
@@ -37,6 +46,9 @@ RecipeInProgressCard.propTypes = {
   category: PropTypes.string,
   instructions: PropTypes.string,
   type: PropTypes.string,
+  ingredients: PropTypes.arrayOf(PropTypes.object),
+  alcoholicOrNot: PropTypes.string,
+  nationality: PropTypes.string,
 }.isRequired;
 
 export default RecipeInProgressCard;
