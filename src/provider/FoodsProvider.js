@@ -11,6 +11,7 @@ function FoodsProvider({ children }) {
   const [siteKey, setSiteKey] = useState('');
   const [categories, setCategories] = useState();
   const [doneRecipes, setDoneRecipes] = useState([]);
+  const [favoriteRecipes, setFavoriteRecipes] = useState([]);
 
   const getFoods = (url) => {
     fetchApi(url).then((data) => {
@@ -51,6 +52,24 @@ function FoodsProvider({ children }) {
     }
   };
 
+  const getFavoriteRecipes = () => {
+    const favoriteRecipesStorage = JSON.parse(localStorage.getItem('favoriteRecipes'));
+    setFavoriteRecipes(favoriteRecipesStorage || []);
+  };
+
+  const filteredFavoriteRecipes = (type) => {
+    const favoriteRecipesStorage = JSON.parse(localStorage.getItem('favoriteRecipes'));
+    if (type === 'all') {
+      setFavoriteRecipes(favoriteRecipesStorage);
+    } else {
+      const filteredRecipes = favoriteRecipesStorage.filter(
+        (recipe) => recipe.type === type,
+      );
+      setFavoriteRecipes(filteredRecipes);
+      console.log(filteredRecipes);
+    }
+  };
+
   const contextType = {
     foods,
     setFoods,
@@ -65,6 +84,10 @@ function FoodsProvider({ children }) {
     getDoneRecipes,
     doneRecipes,
     filteredDoneRecipes,
+    setFavoriteRecipes,
+    getFavoriteRecipes,
+    favoriteRecipes,
+    filteredFavoriteRecipes,
   };
 
   return (
