@@ -1,4 +1,4 @@
-const mockMealChicken = {
+const mealChicken = {
   meals: [
     {
       strMeal: 'Brown Stew Chicken',
@@ -58,4 +58,4 @@ const mockMealChicken = {
   ],
 };
 
-export default mockMealChicken;
+export default mealChicken;
