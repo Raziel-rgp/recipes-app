@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import fetchApi from '../services/fetchApi';
 import '../styles/RecipesDetails.css';
@@ -9,6 +9,7 @@ function RecipeDetails({ site, siteKey, typeKeysObj, carouselKey, carouselObjKey
   const [recommendation, setRecommendation] = useState({ [carouselKey]: [] });
   const [ingredientsValues, setIngredientsValues] = useState([]);
   const MAX_LENGTH = 6;
+  const history = useHistory();
 
   const { id } = useParams();
   useEffect(() => {
@@ -42,6 +43,10 @@ function RecipeDetails({ site, siteKey, typeKeysObj, carouselKey, carouselObjKey
       setIngredientsValues(ingredientsAndMeasures);
     }
   }, [recipeDetails]);
+
+  const handleOnClick = () => {
+    history.push('/done-recipes');
+  };
 
   return (
     recipeDetails !== undefined
@@ -77,7 +82,8 @@ function RecipeDetails({ site, siteKey, typeKeysObj, carouselKey, carouselObjKey
         <button
           type="button"
           data-testid="start-recipe-btn"
-          style={ { position: 'fixed', bottom: '0px', zIndex: '10' } }
+          style={ { position: 'fixed', bottom: '0px' } }
+          onClick={ handleOnClick }
         >
           Start Recipe
         </button>
