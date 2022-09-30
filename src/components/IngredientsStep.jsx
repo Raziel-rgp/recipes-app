@@ -1,7 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import PropTypes from 'prop-types';
+import FoodsContext from '../provider/FoodsContext';
 
 function IngredientsStep({ id, ingredients, type }) {
+  const { setFinishRecipe } = useContext(FoodsContext);
   const [checked, setChecked] = useState([]);
 
   const inProgressRecipesStorage = JSON.parse(localStorage.getItem('inProgressRecipes'));
@@ -25,6 +27,10 @@ function IngredientsStep({ id, ingredients, type }) {
       setChecked(auxArray);
     }
   }, []);
+
+  useEffect(() => {
+    setFinishRecipe(checked.every((check) => check === true));
+  }, [checked]);
 
   const handleCheck = (index) => {
     const inProgressRecipes = inProgressRecipesStorage;

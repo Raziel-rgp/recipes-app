@@ -51,3 +51,9 @@ export const UNFAVORITE_BTN_0 = '0-horizontal-favorite-btn';
 export const UNFAVORITE_BTN_1 = '1-horizontal-favorite-btn';
 
 export const ONE_DRINK_INGREDIENTS = ['Hpnotiq', 'Pineapple Juice', 'Banana Liqueur'];
+export const ONE_MEAL_INGREDIENTS = [
+  'Lentils', 'Onion', 'Carrots', 'Tomato', 'Cumin', 'Paprika', 'Mint', 'Thyme',
+  'Black Pepper', 'Red Pepper Flakes', 'Vegetable Stock', 'Water', 'Sea Salt',
+];
+export const BLACK_HEART_ICON = 'http://localhost/blackHeartIcon.svg';
+export const WHITE_HEART_ICON = 'http://localhost/whiteHeartIcon.svg';
