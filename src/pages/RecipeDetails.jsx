@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import copy from 'clipboard-copy';
 import fetchApi from '../services/fetchApi';
 import '../styles/RecipesDetails.css';
 
@@ -8,6 +9,7 @@ function RecipeDetails({ site, siteKey, typeKeysObj, carouselKey, carouselObjKey
   const [recipeDetails, setRecipeDetails] = useState();
   const [recommendation, setRecommendation] = useState({ [carouselKey]: [] });
   const [ingredientsValues, setIngredientsValues] = useState([]);
+  const [linkCopiedMessage, setLinkCopied] = useState(false);
   const MAX_LENGTH = 6;
   const history = useHistory();
 
@@ -48,18 +50,25 @@ function RecipeDetails({ site, siteKey, typeKeysObj, carouselKey, carouselObjKey
     history.push(`${id}/in-progress`);
   };
 
+  const copyLinkShare = () => {
+    setLinkCopied(true);
+    copy(`http://localhost:3000/${history.location.pathname}`);
+  };
+
   return (
     recipeDetails !== undefined
     && (
       <div>
-        <button
-          type="button"
-          data-testid="start-recipe-btn"
-          style={ { position: 'fixed', bottom: '0px' } }
-          onClick={ handleClick }
-        >
-          Start Recipe
-        </button>
+        {
+          linkCopiedMessage
+            ? (
+              <h4
+                style={ { position: 'fixed', zIndex: '15' } }
+              >
+                Link copied!
+              </h4>)
+            : null
+        }
         <img
           data-testid="recipe-photo"
           src={ recipeDetails[typeKeysObj.img] }
@@ -126,6 +135,35 @@ function RecipeDetails({ site, siteKey, typeKeysObj, carouselKey, carouselObjKey
               </div>
             )
         }
+        <button
+          type="button"
+          data-testid="start-recipe-btn"
+          style={ { position: 'fixed', bottom: '0px', zIndex: '20' } }
+          onClick={ handleClick }
+        >
+          Start Recipe
+        </button>
+        <button
+          type="button"
+          data-testid="share-btn"
+          style={ { bottom: '0px', zIndex: '9' } }
+          onClick={ copyLinkShare }
+        >
+          <img
+            style={ { zIndex: '12', width: '10px' } }
+            src="../images/shareIcon.svg"
+            alt=""
+          />
+          Share Recipe
+        </button>
+        <button
+          type="button"
+          data-testid="favorite-btn"
+          style={ { bottom: '0px', zIndex: '11' } }
+          // onClick={ handleClick }
+        >
+          Favorite Recipe
+        </button>
         {
           siteKey === 'meals'
           && (
