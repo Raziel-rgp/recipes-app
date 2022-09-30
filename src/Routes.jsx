@@ -10,6 +10,16 @@ import Meals from './pages/Meals';
 import Profile from './pages/Profile';
 
 function Routes() {
+  const mealsObj = {
+    img: 'strMealThumb',
+    name: 'strMeal',
+  };
+
+  const drinksObj = {
+    img: 'strDrinkThumb',
+    name: 'strDrink',
+  };
+
   return (
     <Switch>
       <Route exact path="/meals/:id/in-progress" component={ RecipeInProgress } />
@@ -18,14 +28,30 @@ function Routes() {
         exact
         path="/meals/:id"
         render={
-          (props) => <RecipeDetails { ...props } site="themealdb" siteKey="meals" />
+          (props) => (
+            <RecipeDetails
+              { ...props }
+              site="themealdb"
+              siteKey="meals"
+              typeKeysObj={ mealsObj }
+              carouselKey="drinks"
+              carouselObjKeys={ drinksObj }
+            />)
         }
       />
       <Route
         exact
         path="/drinks/:id"
         render={
-          (props) => <RecipeDetails { ...props } site="thecocktaildb" siteKey="drinks" />
+          (props) => (
+            <RecipeDetails
+              { ...props }
+              site="thecocktaildb"
+              siteKey="drinks"
+              typeKeysObj={ drinksObj }
+              carouselKey="meals"
+              carouselObjKeys={ mealsObj }
+            />)
         }
       />
       <Route exact path="/favorite-recipes" component={ FavoriteRecipes } />

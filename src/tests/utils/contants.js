@@ -43,3 +43,9 @@ export const SHARE_BTN = 'share-btn';
 export const FAVORITE_BTN = 'favorite-btn';
 export const INSTRUCTIONS = 'instructions';
 export const FINISH_RECIPE_BTN = 'finish-recipe-btn';
+
+export const HORIZONTAL_IMAGE_0 = '0-horizontal-image';
+export const HORIZONTAL_IMAGE_1 = '1-horizontal-image';
+
+export const UNFAVORITE_BTN_0 = '0-horizontal-favorite-btn';
+export const UNFAVORITE_BTN_1 = '1-horizontal-favorite-btn';
