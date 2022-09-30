@@ -40,15 +40,16 @@ function RecipeInProgress() {
 
   const renderCard = () => {
     const food = inProgressRecipe[typeFood][0];
-    const { strCategory, strInstructions, strAlcoholic, strArea } = food;
+    const { strCategory, strInstructions, strAlcoholic, strArea, strTags } = food;
     if (typeFood === 'meals') {
       const { strMealThumb, strMeal, idMeal } = food;
       return (
         <RecipeInProgressCard
           image={ strMealThumb }
-          title={ strMeal }
+          name={ strMeal }
           id={ idMeal }
           type={ typeFood }
+          tags={ strTags }
           alcoholicOrNot={ strAlcoholic }
           nationality={ strArea }
           category={ strCategory }
@@ -61,8 +62,9 @@ function RecipeInProgress() {
     return (
       <RecipeInProgressCard
         image={ strDrinkThumb }
-        title={ strDrink }
+        name={ strDrink }
         id={ idDrink }
+        tags={ strTags }
         alcoholicOrNot={ strAlcoholic }
         nationality={ strArea }
         type={ typeFood }
