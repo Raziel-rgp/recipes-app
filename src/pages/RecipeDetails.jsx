@@ -4,14 +4,31 @@ import PropTypes from 'prop-types';
 import copy from 'clipboard-copy';
 import fetchApi from '../services/fetchApi';
 import '../styles/RecipesDetails.css';
+import RecipeDetailsCarousel from '../components/RecipeDetailsCarousel';
+import RecipeDetailsShareBtn from '../components/RecipeDetailsShareBtn';
+import RecipeDetailsVideo from '../components/RecipeDetailsVideo';
+
+const copyLinkShare = (callback, history) => {
+  const timeLimit = 2000;
+  callback(true);
+  copy(`http://localhost:3000${history.location.pathname}`);
+  setTimeout(() => {
+    callback(false);
+  }, timeLimit);
+};
 
 function RecipeDetails({ site, siteKey, typeKeysObj, carouselKey, carouselObjKeys }) {
   const [recipeDetails, setRecipeDetails] = useState();
   const [recommendation, setRecommendation] = useState({ [carouselKey]: [] });
   const [ingredientsValues, setIngredientsValues] = useState([]);
   const [linkCopiedMessage, setLinkCopied] = useState(false);
-  const MAX_LENGTH = 6;
   const history = useHistory();
+
+  const inProgressRecipes = JSON.parse(localStorage.getItem('inProgressRecipes'))
+    || { drinks: {}, meals: {} };
+
+  const doneRecipes = JSON.parse(localStorage.getItem('doneRecipes'))
+    || [{ id: '' }];
 
   const { id } = useParams();
   useEffect(() => {
@@ -48,11 +65,6 @@ function RecipeDetails({ site, siteKey, typeKeysObj, carouselKey, carouselObjKey
 
   const handleClick = () => {
     history.push(`${id}/in-progress`);
-  };
-
-  const copyLinkShare = () => {
-    setLinkCopied(true);
-    copy(`http://localhost:3000${history.location.pathname}`);
   };
 
   return (
@@ -104,84 +116,45 @@ function RecipeDetails({ site, siteKey, typeKeysObj, carouselKey, carouselObjKey
                 <div
                   className="recommendation-carousel"
                 >
-                  {
-                    recommendation[carouselKey]
-                    && (
-                      recommendation[carouselKey].map((item, index) => {
-                        if (index < MAX_LENGTH) {
-                          return (
-                            <div
-                              className="carousel-card"
-                              data-testid={ `${index}-recommendation-card` }
-                              key={ item[carouselObjKeys.name] }
-                            >
-                              <h3
-                                data-testid={ `${index}-recommendation-title` }
-                              >
-                                { item[carouselObjKeys.name] }
-                              </h3>
-                              <img
-                                className="carousel-images"
-                                src={ item[carouselObjKeys.img] }
-                                alt=""
-                              />
-                            </div>
-                          );
-                        }
-                        return undefined;
-                      }))
-                  }
+                  <RecipeDetailsCarousel
+                    recommendation={ recommendation }
+                    carouselKey={ carouselKey }
+                    carouselObjKeys={ carouselObjKeys }
+                  />
                 </div>
               </div>
             )
         }
-        <button
-          type="button"
-          data-testid="start-recipe-btn"
-          style={ { position: 'fixed', bottom: '0px', zIndex: '20' } }
-          onClick={ handleClick }
-        >
-          Start Recipe
-        </button>
-        <button
-          type="button"
-          data-testid="share-btn"
-          style={
-            { bottom: '0px', zIndex: '9', margin: '20px 20px 40px', padding: '6px' }
-          }
-          onClick={ copyLinkShare }
-        >
-          <img
-            style={ { zIndex: '12', width: '10px' } }
-            src="../images/shareIcon.svg"
-            alt=""
-          />
-          Share Recipe
-        </button>
+        {
+          doneRecipes.every((recipe) => recipe.id !== id)
+          && (
+            <button
+              type="button"
+              data-testid="start-recipe-btn"
+              style={ { position: 'fixed', bottom: '0px', zIndex: '20' } }
+              onClick={ handleClick }
+            >
+              {
+                Object.keys(inProgressRecipes[siteKey]).some((key) => key === id)
+                  ? 'Continue Recipe'
+                  : 'Start Recipe'
+              }
+            </button>
+          )
+        }
+        <RecipeDetailsShareBtn
+          copyLinkShare={ () => copyLinkShare(setLinkCopied, history) }
+        />
         <button
           type="button"
           data-testid="favorite-btn"
           style={
             { bottom: '0px', zIndex: '11', margin: '20px 20px 40px', padding: '6px' }
           }
-          // onClick={ handleClick }
         >
           Favorite Recipe
         </button>
-        {
-          siteKey === 'meals'
-          && (
-            <video
-              data-testid="video"
-              width="360"
-              height="200"
-              controls
-              src={ recipeDetails.strYoutube }
-            >
-              <track kind="captions" />
-            </video>
-          )
-        }
+        <RecipeDetailsVideo siteKey={ siteKey } src={ recipeDetails.strYoutube } />
       </div>
     )
   );
