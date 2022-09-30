@@ -44,14 +44,22 @@ function RecipeDetails({ site, siteKey, typeKeysObj, carouselKey, carouselObjKey
     }
   }, [recipeDetails]);
 
-  const handleOnClick = () => {
-    history.push('/done-recipes');
+  const handleClick = () => {
+    history.push(`${id}/in-progress`);
   };
 
   return (
     recipeDetails !== undefined
     && (
       <div>
+        <button
+          type="button"
+          data-testid="start-recipe-btn"
+          style={ { position: 'fixed', bottom: '0px' } }
+          onClick={ handleClick }
+        >
+          Start Recipe
+        </button>
         <img
           data-testid="recipe-photo"
           src={ recipeDetails[typeKeysObj.img] }
@@ -79,14 +87,6 @@ function RecipeDetails({ site, siteKey, typeKeysObj, carouselKey, carouselObjKey
           )) }
         </ul>
         <p data-testid="instructions">{ recipeDetails.strInstructions }</p>
-        <button
-          type="button"
-          data-testid="start-recipe-btn"
-          style={ { position: 'fixed', bottom: '0px' } }
-          onClick={ handleOnClick }
-        >
-          Start Recipe
-        </button>
         {
           recommendation !== undefined
             && (
