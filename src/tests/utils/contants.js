@@ -35,3 +35,8 @@ export const FILTER_BY_MEAL_BTN = 'filter-by-meal-btn';
 export const FILTER_BY_DRINK_BTN = 'filter-by-drink-btn';
 export const HORIZONTAL_NAME_0 = '0-horizontal-name';
 export const HORIZONTAL_NAME_1 = '1-horizontal-name';
+export const HORIZONTAL_IMAGE_0 = '0-horizontal-image';
+export const HORIZONTAL_IMAGE_1 = '1-horizontal-image';
+
+export const UNFAVORITE_BTN_0 = '0-horizontal-favorite-btn';
+export const UNFAVORITE_BTN_1 = '1-horizontal-favorite-btn';

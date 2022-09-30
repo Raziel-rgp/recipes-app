@@ -1,0 +1,20 @@
+.recommendation-carousel {
+  border: 1px solid #ccc;
+  color: black;
+  display: flex;
+  height: 220px;
+  justify-content: row;
+  margin: 30px 0;
+  overflow-x: scroll;
+  width: 360px;
+}
+
+.carousel-card {
+  display: flexbox;
+  flex-direction: column;
+}
+
+.carousel-images {
+  height: 180px;
+  width: 180px;
+}
