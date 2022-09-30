@@ -13,6 +13,7 @@ function FoodsProvider({ children }) {
   const [doneRecipes, setDoneRecipes] = useState([]);
   const [inProgressRecipe, setInProgressRecipe] = useState({});
   const [favoriteRecipes, setFavoriteRecipes] = useState([]);
+  const [finishRecipe, setFinishRecipe] = useState(false);
 
   const getFoods = (url) => {
     fetchApi(url).then((data) => {
@@ -72,7 +73,6 @@ function FoodsProvider({ children }) {
         (recipe) => recipe.type === type,
       );
       setFavoriteRecipes(filteredRecipes);
-      console.log(filteredRecipes);
     }
   };
 
@@ -91,6 +91,8 @@ function FoodsProvider({ children }) {
     fetchCategory,
     getDoneRecipes,
     doneRecipes,
+    setFinishRecipe,
+    finishRecipe,
     filteredDoneRecipes,
     setFavoriteRecipes,
     getFavoriteRecipes,

@@ -1,15 +1,16 @@
 import React, { useEffect, useContext } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
 import FoodsContext from '../provider/FoodsContext';
 import RecipeInProgressCard from '../components/RecipeInProgressCard';
 
 function RecipeInProgress() {
   const { id } = useParams();
+  const { pathname } = useLocation();
   const { getRecipeInProgress, inProgressRecipe } = useContext(FoodsContext);
 
   let site = 'thecocktaildb';
   let typeFood = 'drinks';
-  if (window.document.location.href.includes('meals')) {
+  if (pathname.includes('meals')) {
     site = 'themealdb';
     typeFood = 'meals';
   }
@@ -39,15 +40,16 @@ function RecipeInProgress() {
 
   const renderCard = () => {
     const food = inProgressRecipe[typeFood][0];
-    const { strCategory, strInstructions, strAlcoholic, strArea } = food;
+    const { strCategory, strInstructions, strAlcoholic, strArea, strTags } = food;
     if (typeFood === 'meals') {
       const { strMealThumb, strMeal, idMeal } = food;
       return (
         <RecipeInProgressCard
           image={ strMealThumb }
-          title={ strMeal }
+          name={ strMeal }
           id={ idMeal }
           type={ typeFood }
+          tags={ strTags }
           alcoholicOrNot={ strAlcoholic }
           nationality={ strArea }
           category={ strCategory }
@@ -60,8 +62,9 @@ function RecipeInProgress() {
     return (
       <RecipeInProgressCard
         image={ strDrinkThumb }
-        title={ strDrink }
+        name={ strDrink }
         id={ idDrink }
+        tags={ strTags }
         alcoholicOrNot={ strAlcoholic }
         nationality={ strArea }
         type={ typeFood }
