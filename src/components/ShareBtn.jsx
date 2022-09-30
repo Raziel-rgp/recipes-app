@@ -9,7 +9,7 @@ function ShareBtn({ id, index, type }) {
   const [copied, setCopied] = useState(false);
 
   const copyLink = () => {
-    const auxType = type === 'meal' ? 'meals' : 'drinks';
+    const auxType = type === 'meal' || type === 'meals' ? 'meals' : 'drinks';
     const url = `${window.location.protocol}//${window.location.host}/${auxType}/${id}`;
     copy(url);
     setCopied(true);
@@ -24,13 +24,14 @@ function ShareBtn({ id, index, type }) {
     <div>
       <button
         type="button"
-        className={ `share-btn-${index} button-icon` }
+        className="button-icon"
         onClick={ copyLink }
       >
         <img
           src={ shareIcon }
           alt="Share icon"
-          data-testid={ `${index}-horizontal-share-btn` }
+          data-testid={ typeof index === 'number'
+            ? `${index}-horizontal-share-btn` : 'share-btn' }
         />
       </button>
       { copied && <p>Link copied!</p> }
@@ -40,6 +41,12 @@ function ShareBtn({ id, index, type }) {
 
 ShareBtn.propTypes = {
   index: PropTypes.number,
-}.isRequired;
+  id: PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired,
+};
+
+ShareBtn.defaultProps = {
+  index: null,
+};
 
 export default ShareBtn;

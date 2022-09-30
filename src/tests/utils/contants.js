@@ -35,6 +35,15 @@ export const FILTER_BY_MEAL_BTN = 'filter-by-meal-btn';
 export const FILTER_BY_DRINK_BTN = 'filter-by-drink-btn';
 export const HORIZONTAL_NAME_0 = '0-horizontal-name';
 export const HORIZONTAL_NAME_1 = '1-horizontal-name';
+
+export const RECIPE_PHOTO = 'recipe-photo';
+export const RECIPE_TITLE = 'recipe-title';
+export const RECIPE_CATEGORY = 'recipe-category';
+export const SHARE_BTN = 'share-btn';
+export const FAVORITE_BTN = 'favorite-btn';
+export const INSTRUCTIONS = 'instructions';
+export const FINISH_RECIPE_BTN = 'finish-recipe-btn';
+
 export const HORIZONTAL_IMAGE_0 = '0-horizontal-image';
 export const HORIZONTAL_IMAGE_1 = '1-horizontal-image';
 

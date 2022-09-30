@@ -7,15 +7,15 @@ import {
   DRINKS_BOTTOM_BTN,
 } from './utils/contants';
 import renderWithRouter from './utils/renderWithRouter';
-import mockDrinks from './mocks/mockDrinks';
-import mockMeals from './mocks/mockMeals';
+import drinks from './mocks/drinks';
+import meals from './mocks/meals';
 
 const MAX_LEGTH_CARDS = 12;
 
 describe('tests for component FoodCard', () => {
   beforeEach(() => {
     global.fetch = jest.fn(() => Promise.resolve({
-      json: () => Promise.resolve(mockMeals),
+      json: () => Promise.resolve(meals),
     }));
 
     renderWithRouter(<App />);
@@ -28,7 +28,7 @@ describe('tests for component FoodCard', () => {
   afterEach(() => jest.clearAllMocks());
 
   it('in the page Meals, has 12 cards with div, images and texts about food', async () => {
-    await waitFor(() => mockMeals.meals.forEach(({ strMealThumb, strMeal }, index) => {
+    await waitFor(() => meals.meals.forEach(({ strMealThumb, strMeal }, index) => {
       if (index < MAX_LEGTH_CARDS) {
         expect(screen.getByTestId(`${index}-recipe-card`)).toBeInTheDocument();
         expect(screen.getByTestId(`${index}-card-img`).src).toBe(strMealThumb);
@@ -39,12 +39,12 @@ describe('tests for component FoodCard', () => {
 
   it('in the page Drinks, has 12 cards with div, images and texts about food', async () => {
     global.fetch = jest.fn(() => Promise.resolve({
-      json: () => Promise.resolve(mockDrinks),
+      json: () => Promise.resolve(drinks),
     }));
 
     userEvent.click(screen.getByTestId(DRINKS_BOTTOM_BTN));
 
-    await waitFor(() => mockDrinks.drinks.forEach(
+    await waitFor(() => drinks.drinks.forEach(
       ({ strDrinkThumb, strDrink }, index) => {
         if (index < MAX_LEGTH_CARDS) {
           expect(screen.getByTestId(`${index}-recipe-card`)).toBeInTheDocument();

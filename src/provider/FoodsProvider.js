@@ -11,6 +11,7 @@ function FoodsProvider({ children }) {
   const [siteKey, setSiteKey] = useState('');
   const [categories, setCategories] = useState();
   const [doneRecipes, setDoneRecipes] = useState([]);
+  const [inProgressRecipe, setInProgressRecipe] = useState({});
   const [favoriteRecipes, setFavoriteRecipes] = useState([]);
 
   const getFoods = (url) => {
@@ -52,6 +53,11 @@ function FoodsProvider({ children }) {
     }
   };
 
+  const getRecipeInProgress = (siteFood, id) => {
+    const url = (`https://www.${siteFood}.com/api/json/v1/1/lookup.php?i=${id}`);
+    fetchApi(url).then((data) => setInProgressRecipe(data));
+  };
+
   const getFavoriteRecipes = () => {
     const favoriteRecipesStorage = JSON.parse(localStorage.getItem('favoriteRecipes'));
     setFavoriteRecipes(favoriteRecipesStorage || []);
@@ -77,7 +83,9 @@ function FoodsProvider({ children }) {
     site,
     setSite,
     siteKey,
+    getRecipeInProgress,
     setSiteKey,
+    inProgressRecipe,
     getCategories,
     categories,
     fetchCategory,
