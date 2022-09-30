@@ -52,7 +52,7 @@ function RecipeDetails({ site, siteKey, typeKeysObj, carouselKey, carouselObjKey
 
   const copyLinkShare = () => {
     setLinkCopied(true);
-    copy(`http://localhost:3000/${history.location.pathname}`);
+    copy(`http://localhost:3000${history.location.pathname}`);
   };
 
   return (
@@ -146,7 +146,9 @@ function RecipeDetails({ site, siteKey, typeKeysObj, carouselKey, carouselObjKey
         <button
           type="button"
           data-testid="share-btn"
-          style={ { bottom: '0px', zIndex: '9' } }
+          style={
+            { bottom: '0px', zIndex: '9', margin: '20px 20px 40px', padding: '6px' }
+          }
           onClick={ copyLinkShare }
         >
           <img
@@ -159,7 +161,9 @@ function RecipeDetails({ site, siteKey, typeKeysObj, carouselKey, carouselObjKey
         <button
           type="button"
           data-testid="favorite-btn"
-          style={ { bottom: '0px', zIndex: '11' } }
+          style={
+            { bottom: '0px', zIndex: '11', margin: '20px 20px 40px', padding: '6px' }
+          }
           // onClick={ handleClick }
         >
           Favorite Recipe
