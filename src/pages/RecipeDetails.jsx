@@ -50,6 +50,7 @@ function RecipeDetails({ site, siteKey }) {
 
   const handleOnClick = () => {
     history.push('/done-recipes');
+    console.log('button');
   };
 
   return (
