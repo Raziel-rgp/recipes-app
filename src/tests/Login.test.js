@@ -5,7 +5,7 @@ import App from '../App';
 import {
   EMAIL_INPUT, INVALID_EMAIL, INVALID_PASSWORD, LOGIN_SUBMIT_BTN, PASSWORD_INPUT,
   VALID_EMAIL, VALID_PASSWORD,
-} from './utils/contants';
+} from './utils/constants';
 import renderWithRouter from './utils/renderWithRouter';
 
 describe('tests for Login page', () => {

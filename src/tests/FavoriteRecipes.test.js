@@ -8,7 +8,7 @@ import {
   UNFAVORITE_BTN_0,
   UNFAVORITE_BTN_1,
   HORIZONTAL_IMAGE_0,
-} from './utils/contants';
+} from './utils/constants';
 import renderWithRouter from './utils/renderWithRouter';
 import mockFavoriteRecipes from './mocks/mockFavoriteRecipes';
 

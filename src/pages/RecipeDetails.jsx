@@ -1,27 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import copy from 'clipboard-copy';
+import ShareBtn from '../components/ShareBtn';
 import fetchApi from '../services/fetchApi';
 import '../styles/RecipesDetails.css';
 import RecipeDetailsCarousel from '../components/RecipeDetailsCarousel';
-import RecipeDetailsShareBtn from '../components/RecipeDetailsShareBtn';
 import RecipeDetailsVideo from '../components/RecipeDetailsVideo';
-
-const copyLinkShare = (callback, history) => {
-  const timeLimit = 2000;
-  callback(true);
-  copy(`http://localhost:3000${history.location.pathname}`);
-  setTimeout(() => {
-    callback(false);
-  }, timeLimit);
-};
+import FavoriteBtn from '../components/FavoriteBtn';
 
 function RecipeDetails({ site, siteKey, typeKeysObj, carouselKey, carouselObjKeys }) {
   const [recipeDetails, setRecipeDetails] = useState();
   const [recommendation, setRecommendation] = useState({ [carouselKey]: [] });
   const [ingredientsValues, setIngredientsValues] = useState([]);
-  const [linkCopiedMessage, setLinkCopied] = useState(false);
   const history = useHistory();
 
   const inProgressRecipes = JSON.parse(localStorage.getItem('inProgressRecipes'))
@@ -71,16 +61,6 @@ function RecipeDetails({ site, siteKey, typeKeysObj, carouselKey, carouselObjKey
     recipeDetails !== undefined
     && (
       <div>
-        {
-          linkCopiedMessage
-            ? (
-              <h4
-                style={ { position: 'fixed', zIndex: '15' } }
-              >
-                Link copied!
-              </h4>)
-            : null
-        }
         <img
           data-testid="recipe-photo"
           src={ recipeDetails[typeKeysObj.img] }
@@ -142,18 +122,18 @@ function RecipeDetails({ site, siteKey, typeKeysObj, carouselKey, carouselObjKey
             </button>
           )
         }
-        <RecipeDetailsShareBtn
-          copyLinkShare={ () => copyLinkShare(setLinkCopied, history) }
-        />
-        <button
-          type="button"
-          data-testid="favorite-btn"
-          style={
-            { bottom: '0px', zIndex: '11', margin: '20px 20px 40px', padding: '6px' }
-          }
-        >
-          Favorite Recipe
-        </button>
+        <div style={ { display: 'flex', justifyContent: 'end' } }>
+          <ShareBtn id={ id } type={ siteKey } />
+          <FavoriteBtn
+            id={ id }
+            category={ recipeDetails.strCategory }
+            name={ recipeDetails[typeKeysObj.name] }
+            alcoholicOrNot={ recipeDetails.strAlcoholic }
+            nationality={ recipeDetails.strArea }
+            image={ recipeDetails[typeKeysObj.img] }
+            type={ siteKey }
+          />
+        </div>
         <RecipeDetailsVideo siteKey={ siteKey } src={ recipeDetails.strYoutube } />
       </div>
     )

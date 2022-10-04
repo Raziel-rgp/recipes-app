@@ -6,7 +6,7 @@ import App from '../App';
 import {
   DRINKS_BOTTOM_BTN, MEALS_BOTTOM_BTN, EMAIL_INPUT, PASSWORD_INPUT, VALID_EMAIL,
   VALID_PASSWORD, LOGIN_SUBMIT_BTN,
-} from './utils/contants';
+} from './utils/constants';
 
 describe('Tests of Footer', () => {
   it('if testIds exist in the document', () => {
