@@ -24,7 +24,11 @@ function RecipeDetailsVideo({ siteKey, src }) {
 
 RecipeDetailsVideo.propTypes = {
   siteKey: PropTypes.string.isRequired,
-  src: PropTypes.string.isRequired,
+  src: PropTypes.string,
+};
+
+RecipeDetailsVideo.defaultProps = {
+  src: '',
 };
 
 export default RecipeDetailsVideo;

@@ -5,7 +5,7 @@ import App from '../App';
 import {
   EMAIL_INPUT, VALID_EMAIL, PASSWORD_INPUT, VALID_PASSWORD, LOGIN_SUBMIT_BTN,
   DRINKS_BOTTOM_BTN, URL_CATEGORIES_MEALS, URL_CATEGORIES_DRINKS,
-} from './utils/contants';
+} from './utils/constants';
 import renderWithRouter from './utils/renderWithRouter';
 import mealsCategories from './mocks/mealsCategories';
 import drinksCategories from './mocks/drinksCategories';

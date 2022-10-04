@@ -8,7 +8,7 @@ import {
   VALID_PASSWORD, LOGIN_SUBMIT_BTN, PROFILE_TOP_BTN,
   PROFILE_USER_EMAIL, PROFILE_DONE_RECIPES_BTN,
   PROFILE_FAVORITE_RECIPES_BTN, PROFILE_LOGOUT_BTN,
-} from './utils/contants';
+} from './utils/constants';
 
 describe('Tests of Profile', () => {
   test('Test if profile is loaded before login', () => {

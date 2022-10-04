@@ -7,7 +7,7 @@ import {
   SEARCH_TOP_BTN, SEARCH_INPUT, INGREDIENT_SEARCH_RADIO, NAME_SEARCH_RADIO,
   FIRST_LETTER_SEARCH_RADIO, EXEC_SEARCH_BTN, CHICKEN_INGREDIENT_URL, CHICKEN_NAME_URL,
   CHICKEN_FIRST_LETTER_URL, DRINKS_BOTTOM_BTN,
-} from './utils/contants';
+} from './utils/constants';
 import renderWithRouter from './utils/renderWithRouter';
 import mealChicken from './mocks/mealChicken';
 

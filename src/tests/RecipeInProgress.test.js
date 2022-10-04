@@ -6,7 +6,7 @@ import {
   RECIPE_PHOTO, RECIPE_TITLE, RECIPE_CATEGORY, SHARE_BTN, FAVORITE_BTN,
   INSTRUCTIONS, FINISH_RECIPE_BTN, ONE_DRINK_INGREDIENTS, BLACK_HEART_ICON,
   WHITE_HEART_ICON, ONE_MEAL_INGREDIENTS,
-} from './utils/contants';
+} from './utils/constants';
 import renderWithRouter from './utils/renderWithRouter';
 import oneMeal from './mocks/oneMeal';
 import oneDrink from './mocks/oneDrink';

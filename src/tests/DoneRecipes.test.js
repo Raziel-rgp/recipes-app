@@ -6,7 +6,7 @@ import App from '../App';
 import {
   FILTER_BY_ALL_BTN, FILTER_BY_MEAL_BTN, FILTER_BY_DRINK_BTN, HORIZONTAL_NAME_0,
   HORIZONTAL_NAME_1,
-} from './utils/contants';
+} from './utils/constants';
 import renderWithRouter from './utils/renderWithRouter';
 import doneRecipes from './mocks/doneRecipes';
 
