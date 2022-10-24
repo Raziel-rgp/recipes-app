@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useEffect } from 'react';
+import React, { useMemo, useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import RecipesContext from './RecipesContext';
 
@@ -6,7 +6,9 @@ const MAX_CATEGORY = 5;
 
 function RecipesProvider({ children }) {
   const [drinks, setDrinks] = useState([]);
+  const [drinksFilter, setDrinksFilter] = useState([]);
   const [meals, setMeals] = useState([]);
+  const [mealsFilter, setMealsFilter] = useState([]);
   const [btnsDrinks, setBtnsDrinks] = useState([]);
   const [btnsMeals, setBtnsMeals] = useState([]);
 
@@ -19,7 +21,9 @@ function RecipesProvider({ children }) {
       const responseDrinks = await fetch(urlDrinks);
       const { drinks: bebidas } = await responseDrinks.json();
       setDrinks(bebidas);
+      setDrinksFilter(bebidas);
       setMeals(comidas);
+      setMealsFilter(comidas);
       // filtrando 5 primeiros
       const urlCategoryDrink = 'https://www.thecocktaildb.com/api/json/v1/1/list.php?c=list';
       const urlCategoryMeal = 'https://www.themealdb.com/api/json/v1/1/list.php?c=list';
@@ -33,12 +37,43 @@ function RecipesProvider({ children }) {
     fetchAPIs();
   }, []);
 
+  const clickCategory = useCallback(async ({ target }, type) => {
+    if (type === 'drink') {
+      const url = `https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=${target.innerText}`;
+      const response = await fetch(url);
+      const { drinks: df } = await response.json();
+      setDrinksFilter(df);
+    } else {
+      const url = `https://www.themealdb.com/api/json/v1/1/filter.php?c=${target.innerText}`;
+      const response = await fetch(url);
+      const { meals: mf } = await response.json();
+      setMealsFilter(mf);
+    }
+  }, []);
+
+  const clearAllFilters = useCallback(({ target }) => {
+    if (target.name === 'drink') {
+      setDrinksFilter(drinks);
+    } else {
+      setMealsFilter(meals);
+    }
+  }, [drinks, meals]);
+
   const contextValue = useMemo(() => ({
-    meals,
-    drinks,
+    mealsFilter,
+    drinksFilter,
     btnsDrinks,
     btnsMeals,
-  }), [btnsDrinks, btnsMeals, drinks, meals]);
+    clickCategory,
+    clearAllFilters,
+  }), [
+    btnsDrinks,
+    btnsMeals,
+    drinksFilter,
+    mealsFilter,
+    clickCategory,
+    clearAllFilters,
+  ]);
 
   return (
     <RecipesContext.Provider value={ contextValue }>
