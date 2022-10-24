@@ -1,17 +1,29 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
+
 import RecipesContext from '../context/RecipesContext';
+import Footer from '../components/Footer';
 
 function Recipes({ name }) {
-  const { drinks, meals, btnsDrinks, btnsMeals } = useContext(RecipesContext);
+  const {
+    drinksFilter,
+    mealsFilter,
+    btnsDrinks,
+    btnsMeals,
+    clickCategory,
+    clearAllFilters,
+  } = useContext(RecipesContext);
   const max = 11;
 
-  const renderButtons = (lista) => (
+  console.log(drinksFilter, mealsFilter);
+
+  const renderButtons = (lista, type) => (
     lista.map((e, index) => (
       <button
         data-testid={ `${e.strCategory}-category-filter` }
         type="button"
         key={ index }
+        onClick={ (evt) => clickCategory(evt, type) }
       >
         {e.strCategory}
       </button>
@@ -24,10 +36,18 @@ function Recipes({ name }) {
         name === 'drinks' ? (
           <div>
             {
-              renderButtons(btnsDrinks)
+              renderButtons(btnsDrinks, 'drink')
             }
+            <button
+              type="button"
+              data-testid="All-category-filter"
+              name="drink"
+              onClick={ clearAllFilters }
+            >
+              All
+            </button>
             {
-              drinks?.filter((_, index) => index <= max)
+              drinksFilter?.filter((_, index) => index <= max)
                 .map((e, index) => (
                   <div
                     key={ e.idDrink }
@@ -46,10 +66,18 @@ function Recipes({ name }) {
         ) : (
           <div>
             {
-              renderButtons(btnsMeals)
+              renderButtons(btnsMeals, 'meal')
             }
+            <button
+              type="button"
+              data-testid="All-category-filter"
+              name="meal"
+              onClick={ clearAllFilters }
+            >
+              All
+            </button>
             {
-              meals?.filter((_, index) => index <= max)
+              mealsFilter?.filter((_, index) => index <= max)
                 .map((e, index) => (
                   <div
                     key={ e.idMeal }
@@ -67,6 +95,7 @@ function Recipes({ name }) {
           </div>
         )
       }
+      <Footer />
     </div>
   );
 }
