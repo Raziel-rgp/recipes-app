@@ -3,13 +3,29 @@ import PropTypes from 'prop-types';
 import RecipesContext from '../context/RecipesContext';
 
 function Recipes({ name }) {
-  const { drinks, meals } = useContext(RecipesContext);
+  const { drinks, meals, btnsDrinks, btnsMeals } = useContext(RecipesContext);
   const max = 11;
+
+  const renderButtons = (lista) => (
+    lista.map((e, index) => (
+      <button
+        data-testid={ `${e.strCategory}-category-filter` }
+        type="button"
+        key={ index }
+      >
+        {e.strCategory}
+      </button>
+    ))
+  );
+
   return (
     <div>
       {
         name === 'drinks' ? (
           <div>
+            {
+              renderButtons(btnsDrinks)
+            }
             {
               drinks?.filter((_, index) => index <= max)
                 .map((e, index) => (
@@ -29,6 +45,9 @@ function Recipes({ name }) {
           </div>
         ) : (
           <div>
+            {
+              renderButtons(btnsMeals)
+            }
             {
               meals?.filter((_, index) => index <= max)
                 .map((e, index) => (
