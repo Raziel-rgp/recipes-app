@@ -1,0 +1,27 @@
+.img_principal {
+  width: 100%;
+}
+
+.recomendation_card {
+  padding: 10px;
+  width: 250px;
+}
+
+.recomendation_card img {
+  width: 150px;
+}
+
+.recomendation_container {
+  display: flex;
+  gap: 90px;
+  margin-bottom: 50px;
+  margin-left: 20px;
+  margin-top: 30px;
+  overflow-x: scroll;
+}
+
+.start-recipe-button {
+  bottom: 0;
+  position: fixed;
+}
+
