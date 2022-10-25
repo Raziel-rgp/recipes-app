@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import RecipesContext from '../context/RecipesContext';
 import '../styles/RecipeDetails.css';
@@ -17,6 +18,7 @@ function RecipeDetails({ type, match }) {
   const [ingredients, setIngredients] = useState([]);
   const [measures, setMeasures] = useState([]);
   const { id } = match.params;
+  const history = useHistory();
 
   useEffect(() => {
     const getRecipe = async () => {
@@ -148,7 +150,7 @@ function RecipeDetails({ type, match }) {
           !doneRecipes.some((e) => e.id === id) && (
             <button
               type="button"
-              // onClick={}
+              onClick={ () => history.push(`/${type}/${id}/in-progress`) }
               className="start-recipe-button"
               data-testid="start-recipe-btn"
             >
