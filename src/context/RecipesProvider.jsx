@@ -39,20 +39,28 @@ function RecipesProvider({ children }) {
 
   const clickCategory = useCallback(async ({ target }, type) => {
     if (type === 'drink') {
-      const url = `https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=${target.innerText}`;
-      const response = await fetch(url);
-      const { drinks: df } = await response.json();
-      setDrinksFilter(df);
+      try {
+        const url = `https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=${target.innerText}`;
+        const response = await fetch(url);
+        const { drinks: df } = await response.json();
+        setDrinksFilter(df);
+      } catch (error) {
+        console.log(error);
+      }
     } else {
-      const url = `https://www.themealdb.com/api/json/v1/1/filter.php?c=${target.innerText}`;
-      const response = await fetch(url);
-      const { meals: mf } = await response.json();
-      setMealsFilter(mf);
+      try {
+        const url = `https://www.themealdb.com/api/json/v1/1/filter.php?c=${target.innerText}`;
+        const response = await fetch(url);
+        const { meals: mf } = await response.json();
+        setMealsFilter(mf);
+      } catch (error) {
+        console.log(error);
+      }
     }
   }, []);
 
-  const clearAllFilters = useCallback(({ target }) => {
-    if (target.name === 'drink') {
+  const clearAllFilters = useCallback((type) => {
+    if (type === 'drink') {
       setDrinksFilter(drinks);
     } else {
       setMealsFilter(meals);

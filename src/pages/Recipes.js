@@ -1,10 +1,13 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import PropTypes from 'prop-types';
-
+import { useHistory } from 'react-router-dom';
 import RecipesContext from '../context/RecipesContext';
 import Footer from '../components/Footer';
 
 function Recipes({ name }) {
+  const [click, setClick] = useState(false);
+  const { push } = useHistory();
+
   const {
     drinksFilter,
     mealsFilter,
@@ -15,15 +18,17 @@ function Recipes({ name }) {
   } = useContext(RecipesContext);
   const max = 11;
 
-  console.log(drinksFilter, mealsFilter);
-
   const renderButtons = (lista, type) => (
     lista.map((e, index) => (
       <button
         data-testid={ `${e.strCategory}-category-filter` }
         type="button"
         key={ index }
-        onClick={ (evt) => clickCategory(evt, type) }
+        onClick={ (evt) => {
+          if (!click) clickCategory(evt, type);
+          if (click) clearAllFilters(type);
+          setClick(!click);
+        } }
       >
         {e.strCategory}
       </button>
@@ -41,8 +46,7 @@ function Recipes({ name }) {
             <button
               type="button"
               data-testid="All-category-filter"
-              name="drink"
-              onClick={ clearAllFilters }
+              onClick={ () => clearAllFilters('drink') }
             >
               All
             </button>
@@ -52,6 +56,8 @@ function Recipes({ name }) {
                   <div
                     key={ e.idDrink }
                     data-testid={ `${index}-recipe-card` }
+                    onClick={ () => push(`/drinks/${e.idDrink}`) }
+                    aria-hidden="true"
                   >
                     <img
                       data-testid={ `${index}-card-img` }
@@ -82,6 +88,8 @@ function Recipes({ name }) {
                   <div
                     key={ e.idMeal }
                     data-testid={ `${index}-recipe-card` }
+                    onClick={ () => push(`/meals/${e.idMeal}`) }
+                    aria-hidden="true"
                   >
                     <img
                       src={ e.strMealThumb }
