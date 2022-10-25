@@ -52,14 +52,16 @@ function RecipeDetails({ type, match }) {
               <p data-testid="recipe-category">{recipe.strAlcoholic}</p>
               <ul>
                 {
-                  ingredients.map((e, index) => (
-                    <li
-                      key={ `${e.idDrink} - ${index}` }
-                      data-testid={ `${index}-ingredient-name-and-measure` }
-                    >
-                      {`${recipe[e]} - ${recipe[measures[index]]} `}
-                    </li>
-                  ))
+                  ingredients.filter((e) => recipe[e] !== '')
+                    .filter((e) => recipe[e] !== null)
+                    .map((e, index) => (
+                      <li
+                        key={ `${e.idDrink} - ${index}` }
+                        data-testid={ `${index}-ingredient-name-and-measure` }
+                      >
+                        {`${recipe[e]}  ${recipe[measures[index]]} `}
+                      </li>
+                    ))
                 }
               </ul>
               <p data-testid="instructions">{recipe.strInstructions}</p>
@@ -91,14 +93,16 @@ function RecipeDetails({ type, match }) {
               <p data-testid="recipe-category">{recipe.strCategory}</p>
               <ul>
                 {
-                  ingredients.map((e, index) => (
-                    <li
-                      key={ `${e.idMeal} - ${index}` }
-                      data-testid={ `${index}-ingredient-name-and-measure` }
-                    >
-                      {`${recipe[e]} - ${recipe[measures[index]]} `}
-                    </li>
-                  ))
+                  ingredients.filter((e) => recipe[e] !== '')
+                    .filter((e) => recipe[e] !== null)
+                    .map((e, index) => (
+                      <li
+                        key={ `${e.idMeal} - ${index}` }
+                        data-testid={ `${index}-ingredient-name-and-measure` }
+                      >
+                        {`${recipe[e]}  ${recipe[measures[index]]} `}
+                      </li>
+                    ))
                 }
               </ul>
               <p data-testid="instructions">{recipe.strInstructions}</p>
