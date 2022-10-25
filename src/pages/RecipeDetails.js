@@ -170,6 +170,20 @@ function RecipeDetails({ type, match }) {
             </button>
           )
         }
+        <button
+          type="button"
+          // onClick={}
+          data-testid="share-btn"
+        >
+          Compartilhar
+        </button>
+        <button
+          type="button"
+          // onClick={}
+          data-testid="favorite-btn"
+        >
+          Favoritar
+        </button>
 
       </div>
     )
