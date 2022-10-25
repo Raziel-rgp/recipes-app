@@ -6,14 +6,14 @@ import '../styles/RecipeDetails.css';
 const MAX_NUM = 6;
 
 function RecipeDetails({ type, match }) {
-  const { findRecipeById, drinks, meals } = useContext(RecipesContext);
+  const { findRecipeById, drinks, meals, doneRecipes } = useContext(RecipesContext);
   const [recipe, setRecipe] = useState({});
   const [ingredients, setIngredients] = useState([]);
   const [measures, setMeasures] = useState([]);
+  const { id } = match.params;
 
   useEffect(() => {
     const getRecipe = async () => {
-      const { id } = match.params;
       const recipeData = await findRecipeById(id, type);
       setRecipe(recipeData);
 
@@ -31,9 +31,10 @@ function RecipeDetails({ type, match }) {
         setMeasures(measuresVazios);
       };
       getIngredients(recipeData);
+      console.log('oi');
     };
     getRecipe();
-  }, [findRecipeById, match.params, recipe, type]);
+  }, [findRecipeById, type, id]);
 
   return (
     Object.keys(recipe).length > 0 && (
@@ -109,6 +110,7 @@ function RecipeDetails({ type, match }) {
                 frameBorder="0"
                 allowFullScreen
                 data-testid="video"
+                style={ { display: 'block', margin: 'auto' } }
               />
               <div className="recomendation_container">
                 {
@@ -132,14 +134,20 @@ function RecipeDetails({ type, match }) {
             </div>
           )
         }
-        <button
-          type="button"
-          // onClick={}
-          className="start-recipe-button"
-          data-testid="start-recipe-btn"
-        >
-          Start Recipe
-        </button>
+
+        {
+          !doneRecipes.some((e) => e.id === id) && (
+            <button
+              type="button"
+              // onClick={}
+              className="start-recipe-button"
+              data-testid="start-recipe-btn"
+            >
+              Start Recipe
+            </button>
+          )
+        }
+
       </div>
     )
   );

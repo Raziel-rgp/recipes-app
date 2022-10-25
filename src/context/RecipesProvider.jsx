@@ -1,6 +1,7 @@
 import React, { useMemo, useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import RecipesContext from './RecipesContext';
+import useLocalStorage from '../hooks/useLocalStorage';
 
 const MAX_CATEGORY = 5;
 
@@ -11,6 +12,8 @@ function RecipesProvider({ children }) {
   const [mealsFilter, setMealsFilter] = useState([]);
   const [btnsDrinks, setBtnsDrinks] = useState([]);
   const [btnsMeals, setBtnsMeals] = useState([]);
+  const { state: doneRecipes,
+    setState: setDoneRecipes } = useLocalStorage('DoneRecipes');
 
   useEffect(() => {
     const fetchAPIs = async () => {
@@ -98,7 +101,11 @@ function RecipesProvider({ children }) {
     clickCategory,
     clearAllFilters,
     findRecipeById,
+    doneRecipes,
+    setDoneRecipes,
   }), [
+    doneRecipes,
+    setDoneRecipes,
     drinks,
     meals,
     btnsDrinks,
