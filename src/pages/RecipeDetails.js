@@ -132,6 +132,14 @@ function RecipeDetails({ type, match }) {
             </div>
           )
         }
+        <button
+          type="button"
+          // onClick={}
+          className="start-recipe-button"
+          data-testid="start-recipe-btn"
+        >
+          Start Recipe
+        </button>
       </div>
     )
   );
