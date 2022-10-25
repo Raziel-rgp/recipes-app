@@ -1,4 +1,3 @@
-// se persistsir aquele erro do unxpected end Json taca try e catch em todas requisições!
 import React, { useContext, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
