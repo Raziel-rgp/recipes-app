@@ -26,6 +26,10 @@ function RecipesProvider({ children }) {
     state: inProgressRecipes,
     setState: setInProgressRecipes,
   } = useLocalStorage('inProgressRecipes', INITIAL_IN_PROGRESS);
+  const {
+    state: favoriteRecipes,
+    setState: setFavoriteRecipes,
+  } = useLocalStorage('favoriteRecipes', []);
 
   useEffect(() => {
     const fetchAPIs = async () => {
@@ -117,7 +121,11 @@ function RecipesProvider({ children }) {
     setDoneRecipes,
     inProgressRecipes,
     setInProgressRecipes,
+    favoriteRecipes,
+    setFavoriteRecipes,
   }), [
+    favoriteRecipes,
+    setFavoriteRecipes,
     inProgressRecipes,
     setInProgressRecipes,
     doneRecipes,

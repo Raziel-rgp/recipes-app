@@ -17,6 +17,8 @@ function RecipeDetails({ type, match }) {
     meals,
     doneRecipes,
     inProgressRecipes,
+    favoriteRecipes,
+    setFavoriteRecipes,
   } = useContext(RecipesContext);
   const [recipe, setRecipe] = useState({});
   const [ingredients, setIngredients] = useState([]);
@@ -52,14 +54,38 @@ function RecipeDetails({ type, match }) {
 
   const clickClipBoard = async () => {
     try {
-      await copy(`http://localhost:3000${pathname}`);
+      const url = `http://localhost:3000${pathname}`;
+      await copy(url);
       setClipBoard(true);
-      // setTimeout(() => setClipBoard(false), THREE_SECONDS);
-      // console.log(result);
     } catch (error) {
-      // console.log(error);
       setClipBoard(false);
     }
+  };
+
+  const clickFavorite = () => {
+    let favRecipe = {};
+    if (type === 'drinks') {
+      favRecipe = {
+        id: recipe.idDrink,
+        type: 'drink',
+        nationality: '',
+        category: recipe.strCategory,
+        alcoholicOrNot: recipe.strAlcoholic,
+        name: recipe.strDrink,
+        image: recipe.strDrinkThumb,
+      };
+    } else {
+      favRecipe = {
+        id: recipe.idMeal,
+        type: 'meal',
+        nationality: recipe.strArea,
+        category: recipe.strCategory,
+        alcoholicOrNot: '',
+        name: recipe.strMeal,
+        image: recipe.strMealThumb,
+      };
+    }
+    setFavoriteRecipes([...favoriteRecipes, favRecipe]);
   };
 
   return (
@@ -77,7 +103,7 @@ function RecipeDetails({ type, match }) {
         </button>
         <button
           type="button"
-          // onClick={}
+          onClick={ clickFavorite }
           data-testid="favorite-btn"
         >
           Favoritar
