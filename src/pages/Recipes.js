@@ -1,3 +1,4 @@
+// se persistsir aquele erro do unxpected end Json taca try e catch em todas requisições!
 import React, { useContext, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
@@ -5,7 +6,7 @@ import RecipesContext from '../context/RecipesContext';
 import Footer from '../components/Footer';
 
 function Recipes({ name }) {
-  const [click, setClick] = useState(false);
+  const [click, setClick] = useState({ name: '' });
   const { push } = useHistory();
 
   const {
@@ -25,9 +26,9 @@ function Recipes({ name }) {
         type="button"
         key={ index }
         onClick={ (evt) => {
-          if (!click) clickCategory(evt, type);
-          if (click) clearAllFilters(type);
-          setClick(!click);
+          if (e !== click.name) clickCategory(evt, type);
+          if (click.name === e) clearAllFilters(type);
+          setClick({ name: e });
         } }
       >
         {e.strCategory}
