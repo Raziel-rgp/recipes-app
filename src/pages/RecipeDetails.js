@@ -6,7 +6,13 @@ import '../styles/RecipeDetails.css';
 const MAX_NUM = 6;
 
 function RecipeDetails({ type, match }) {
-  const { findRecipeById, drinks, meals, doneRecipes } = useContext(RecipesContext);
+  const {
+    findRecipeById,
+    drinks,
+    meals,
+    doneRecipes,
+    inProgressRecipes,
+  } = useContext(RecipesContext);
   const [recipe, setRecipe] = useState({});
   const [ingredients, setIngredients] = useState([]);
   const [measures, setMeasures] = useState([]);
@@ -147,6 +153,18 @@ function RecipeDetails({ type, match }) {
               data-testid="start-recipe-btn"
             >
               Start Recipe
+            </button>
+          )
+        }
+        {
+          inProgressRecipes[type][id] && (
+            <button
+              type="button"
+              // onClick={}
+              className="start-recipe-button"
+              data-testid="start-recipe-btn"
+            >
+              Continue Recipe
             </button>
           )
         }

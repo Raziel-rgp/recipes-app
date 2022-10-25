@@ -4,6 +4,14 @@ import RecipesContext from './RecipesContext';
 import useLocalStorage from '../hooks/useLocalStorage';
 
 const MAX_CATEGORY = 5;
+const INITIAL_IN_PROGRESS = {
+  drinks: {
+    0: [],
+  },
+  meals: {
+    0: [],
+  },
+};
 
 function RecipesProvider({ children }) {
   const [drinks, setDrinks] = useState([]);
@@ -13,7 +21,11 @@ function RecipesProvider({ children }) {
   const [btnsDrinks, setBtnsDrinks] = useState([]);
   const [btnsMeals, setBtnsMeals] = useState([]);
   const { state: doneRecipes,
-    setState: setDoneRecipes } = useLocalStorage('DoneRecipes');
+    setState: setDoneRecipes } = useLocalStorage('DoneRecipes', []);
+  const {
+    state: inProgressRecipes,
+    setState: setInProgressRecipes,
+  } = useLocalStorage('inProgressRecipes', INITIAL_IN_PROGRESS);
 
   useEffect(() => {
     const fetchAPIs = async () => {
@@ -103,7 +115,11 @@ function RecipesProvider({ children }) {
     findRecipeById,
     doneRecipes,
     setDoneRecipes,
+    inProgressRecipes,
+    setInProgressRecipes,
   }), [
+    inProgressRecipes,
+    setInProgressRecipes,
     doneRecipes,
     setDoneRecipes,
     drinks,
