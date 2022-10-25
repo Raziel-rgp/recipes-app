@@ -71,6 +71,23 @@ function RecipesProvider({ children }) {
     }
   }, [drinks, meals]);
 
+  const findRecipeById = useCallback(async (id, type) => {
+    try {
+      if (type === 'drinks') {
+        const url = `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`;
+        const response = await fetch(url);
+        const { drinks: bebidas } = await response.json();
+        return bebidas[0];
+      }
+      const url = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`;
+      const response = await fetch(url);
+      const { meals: comidas } = await response.json();
+      return comidas[0];
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
+
   const contextValue = useMemo(() => ({
     mealsFilter,
     drinksFilter,
@@ -78,6 +95,7 @@ function RecipesProvider({ children }) {
     btnsMeals,
     clickCategory,
     clearAllFilters,
+    findRecipeById,
   }), [
     btnsDrinks,
     btnsMeals,
@@ -85,6 +103,7 @@ function RecipesProvider({ children }) {
     mealsFilter,
     clickCategory,
     clearAllFilters,
+    findRecipeById,
   ]);
 
   return (
