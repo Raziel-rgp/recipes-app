@@ -89,6 +89,8 @@ function RecipesProvider({ children }) {
   }, []);
 
   const contextValue = useMemo(() => ({
+    drinks,
+    meals,
     mealsFilter,
     drinksFilter,
     btnsDrinks,
@@ -97,6 +99,8 @@ function RecipesProvider({ children }) {
     clearAllFilters,
     findRecipeById,
   }), [
+    drinks,
+    meals,
     btnsDrinks,
     btnsMeals,
     drinksFilter,

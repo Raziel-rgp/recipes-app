@@ -1,9 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import RecipesContext from '../context/RecipesContext';
+import '../styles/RecipeDetails.css';
+
+const MAX_NUM = 6;
 
 function RecipeDetails({ type, match }) {
-  const { findRecipeById } = useContext(RecipesContext);
+  const { findRecipeById, drinks, meals } = useContext(RecipesContext);
   const [recipe, setRecipe] = useState({});
   const [ingredients, setIngredients] = useState([]);
   const [measures, setMeasures] = useState([]);
@@ -39,6 +42,7 @@ function RecipeDetails({ type, match }) {
           type === 'drinks' ? (
             <div>
               <img
+                className="img_principal"
                 src={ recipe.strDrinkThumb }
                 alt={ recipe.strDrink }
                 data-testid="recipe-photo"
@@ -58,6 +62,21 @@ function RecipeDetails({ type, match }) {
                 }
               </ul>
               <p data-testid="instructions">{recipe.strInstructions}</p>
+              <div className="recomendation_container">
+                {
+                  meals.filter((_e, index) => index < MAX_NUM)
+                    .map((e, index) => (
+                      <div
+                        className="recomendation_card"
+                        key={ e.idMeal }
+                        data-testid={ `${index}-recommendation-card` }
+                      >
+                        <img src={ e.strMealThumb } alt={ e.srtMeal } />
+                        <p data-testid={ `${index}-recommendation-title` }>{e.strMeal}</p>
+                      </div>
+                    ))
+                }
+              </div>
             </div>
           ) : (
             <div>
@@ -65,6 +84,7 @@ function RecipeDetails({ type, match }) {
                 src={ recipe.strMealThumb }
                 alt={ recipe.strMeal }
                 data-testid="recipe-photo"
+                className="img_principal"
               />
               <h4 data-testid="recipe-title">{recipe.strMeal}</h4>
               <p data-testid="recipe-category">{recipe.strCategory}</p>
@@ -90,7 +110,25 @@ function RecipeDetails({ type, match }) {
                 allowFullScreen
                 data-testid="video"
               />
-              {/* <iframe width="1148" height="646" src="https://www.youtube.com/embed/VVnZd8A84z4" title="Turkish Vegetable Lentil Soup Recipe – Traditional Turkish Red Lentil" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> */}
+              <div className="recomendation_container">
+                {
+                  drinks.filter((_e, index) => index < MAX_NUM)
+                    .map((e, index) => (
+                      <div
+                        className="recomendation_card"
+                        key={ e.idDrink }
+                        data-testid={ `${index}-recommendation-card` }
+                      >
+                        <img src={ e.strDrinkThumb } alt={ e.strDrink } />
+                        <p
+                          data-testid={ `${index}-recommendation-title` }
+                        >
+                          {e.strDrink}
+                        </p>
+                      </div>
+                    ))
+                }
+              </div>
             </div>
           )
         }
