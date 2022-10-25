@@ -31,7 +31,6 @@ function RecipeDetails({ type, match }) {
         setMeasures(measuresVazios);
       };
       getIngredients(recipeData);
-      console.log('oi');
     };
     getRecipe();
   }, [findRecipeById, type, id]);
