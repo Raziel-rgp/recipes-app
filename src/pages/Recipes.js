@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 import RecipesContext from '../context/RecipesContext';
 import Footer from '../components/Footer';
+import Header from '../components/Header';
 
 function Recipes({ name }) {
   const [click, setClick] = useState({ name: '' });
@@ -37,6 +38,7 @@ function Recipes({ name }) {
 
   return (
     <div>
+      <Header />
       {
         name === 'drinks' ? (
           <div>
