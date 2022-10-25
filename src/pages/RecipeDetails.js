@@ -1,16 +1,33 @@
 import React, { useContext, useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import RecipesContext from '../context/RecipesContext';
 import '../styles/RecipeDetails.css';
 
+const copy = require('clipboard-copy');
+
 const MAX_NUM = 6;
+// const THREE_SECONDS = 3000;
 
 function RecipeDetails({ type, match }) {
-  const { findRecipeById, drinks, meals, doneRecipes } = useContext(RecipesContext);
+  const [clipboard, setClipBoard] = useState();
+  const {
+    findRecipeById,
+    drinks,
+    meals,
+    doneRecipes,
+    inProgressRecipes,
+    favoriteRecipes,
+    setFavoriteRecipes,
+  } = useContext(RecipesContext);
   const [recipe, setRecipe] = useState({});
   const [ingredients, setIngredients] = useState([]);
   const [measures, setMeasures] = useState([]);
   const { id } = match.params;
+  const history = useHistory();
+  const { pathname } = history.location;
+  // console.log(history.location.pathname);
+  // console.log(clipboard);
 
   useEffect(() => {
     const getRecipe = async () => {
@@ -35,9 +52,62 @@ function RecipeDetails({ type, match }) {
     getRecipe();
   }, [findRecipeById, type, id]);
 
+  const clickClipBoard = async () => {
+    try {
+      const url = `http://localhost:3000${pathname}`;
+      await copy(url);
+      setClipBoard(true);
+    } catch (error) {
+      setClipBoard(false);
+    }
+  };
+
+  const clickFavorite = () => {
+    let favRecipe = {};
+    if (type === 'drinks') {
+      favRecipe = {
+        id: recipe.idDrink,
+        type: 'drink',
+        nationality: '',
+        category: recipe.strCategory,
+        alcoholicOrNot: recipe.strAlcoholic,
+        name: recipe.strDrink,
+        image: recipe.strDrinkThumb,
+      };
+    } else {
+      favRecipe = {
+        id: recipe.idMeal,
+        type: 'meal',
+        nationality: recipe.strArea,
+        category: recipe.strCategory,
+        alcoholicOrNot: '',
+        name: recipe.strMeal,
+        image: recipe.strMealThumb,
+      };
+    }
+    setFavoriteRecipes([...favoriteRecipes, favRecipe]);
+  };
+
   return (
     Object.keys(recipe).length > 0 && (
       <div>
+        {
+          clipboard && <div>Link copied!</div>
+        }
+        <button
+          type="button"
+          onClick={ clickClipBoard }
+          data-testid="share-btn"
+        >
+          Compartilhar
+        </button>
+        <button
+          type="button"
+          onClick={ clickFavorite }
+          data-testid="favorite-btn"
+        >
+          Favoritar
+        </button>
         {
           type === 'drinks' ? (
             <div>
@@ -142,11 +212,23 @@ function RecipeDetails({ type, match }) {
           !doneRecipes.some((e) => e.id === id) && (
             <button
               type="button"
-              // onClick={}
+              onClick={ () => history.push(`/${type}/${id}/in-progress`) }
               className="start-recipe-button"
               data-testid="start-recipe-btn"
             >
               Start Recipe
+            </button>
+          )
+        }
+        {
+          inProgressRecipes[type][id] && (
+            <button
+              type="button"
+              // onClick={}
+              className="start-recipe-button"
+              data-testid="start-recipe-btn"
+            >
+              Continue Recipe
             </button>
           )
         }
