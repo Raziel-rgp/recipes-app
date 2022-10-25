@@ -4,9 +4,13 @@ import PropTypes from 'prop-types';
 import RecipesContext from '../context/RecipesContext';
 import '../styles/RecipeDetails.css';
 
+const copy = require('clipboard-copy');
+
 const MAX_NUM = 6;
+// const THREE_SECONDS = 3000;
 
 function RecipeDetails({ type, match }) {
+  const [clipboard, setClipBoard] = useState();
   const {
     findRecipeById,
     drinks,
@@ -19,6 +23,9 @@ function RecipeDetails({ type, match }) {
   const [measures, setMeasures] = useState([]);
   const { id } = match.params;
   const history = useHistory();
+  const { pathname } = history.location;
+  // console.log(history.location.pathname);
+  // console.log(clipboard);
 
   useEffect(() => {
     const getRecipe = async () => {
@@ -43,9 +50,38 @@ function RecipeDetails({ type, match }) {
     getRecipe();
   }, [findRecipeById, type, id]);
 
+  const clickClipBoard = async () => {
+    try {
+      await copy(`http://localhost:3000${pathname}`);
+      setClipBoard(true);
+      // setTimeout(() => setClipBoard(false), THREE_SECONDS);
+      // console.log(result);
+    } catch (error) {
+      // console.log(error);
+      setClipBoard(false);
+    }
+  };
+
   return (
     Object.keys(recipe).length > 0 && (
       <div>
+        {
+          clipboard && <div>Link copied!</div>
+        }
+        <button
+          type="button"
+          onClick={ clickClipBoard }
+          data-testid="share-btn"
+        >
+          Compartilhar
+        </button>
+        <button
+          type="button"
+          // onClick={}
+          data-testid="favorite-btn"
+        >
+          Favoritar
+        </button>
         {
           type === 'drinks' ? (
             <div>
@@ -170,20 +206,6 @@ function RecipeDetails({ type, match }) {
             </button>
           )
         }
-        <button
-          type="button"
-          // onClick={}
-          data-testid="share-btn"
-        >
-          Compartilhar
-        </button>
-        <button
-          type="button"
-          // onClick={}
-          data-testid="favorite-btn"
-        >
-          Favoritar
-        </button>
 
       </div>
     )
