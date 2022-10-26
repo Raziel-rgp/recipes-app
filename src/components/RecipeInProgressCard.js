@@ -1,6 +1,6 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
-
+import { setItem, getItem } from '../services/LocalStorageFuncs';
 import RecipesContext from '../context/RecipesContext';
 import '../styles/RecipeInProgress.css';
 
@@ -10,8 +10,18 @@ function RecipeInProgressCard() {
   const { id } = useParams();
   const [data, setData] = useState({});
   const [ingredients, setIngredients] = useState([]);
-  // const [done, setDone] = useState('');
   const [checks, setChecks] = useState([]);
+  const [type, setType] = useState('');
+
+  useEffect(() => {
+    if (type !== '') {
+      const saveIngredients = getItem('inProgressRecipes')[type];
+      if (typeof saveIngredients === 'object'
+        && Object.keys(saveIngredients).includes(id)) {
+        setChecks(saveIngredients[id]);
+      }
+    }
+  }, [id, type]);
 
   const getIngredients = useCallback(() => {
     const keysDataIngredients = Object.keys(data)
@@ -27,10 +37,12 @@ function RecipeInProgressCard() {
     const asyncOperation = async () => {
       if (pathname.includes('drinks')) {
         typeFood = 'drinks';
+        setType(typeFood);
         const dados = await findRecipeById(id, typeFood);
         setData(dados);
       } else {
         typeFood = 'meals';
+        setType(typeFood);
         const dados = await findRecipeById(id, typeFood);
         setData(dados);
       }
@@ -40,15 +52,17 @@ function RecipeInProgressCard() {
     getIngredients();
   }, [pathname, findRecipeById, id, getIngredients]);
 
-  // const doneStep = ({ target }) => {
-  //   const { checked } = target;
-
-  //   if (checked) {
-  //     setDone('done');
-  //   } else {
-  //     setDone('');
-  //   }
-  // };
+  useEffect(() => {
+    if (checks.length > 0 && type !== '') {
+      const saveObj = getItem('inProgressRecipes');
+      saveObj[type][id] = checks;
+      setItem('inProgressRecipes', saveObj);
+    } else if (checks.length === 0 && type) {
+      const saveObj = getItem('inProgressRecipes');
+      saveObj[type][id] = [];
+      setItem('inProgressRecipes', saveObj);
+    }
+  }, [checks, id, type]);
 
   const handleCheck = (ingredient) => {
     if (!checks.some((e) => e === ingredient)) {
@@ -99,6 +113,7 @@ function RecipeInProgressCard() {
                       type="checkbox"
                       id={ `${index} - check` }
                       onClick={ () => handleCheck(data[steps]) }
+                      defaultChecked={ checks.some((e) => e === data[steps]) }
                     />
                   </label>
                 ))
@@ -148,6 +163,7 @@ function RecipeInProgressCard() {
                       type="checkbox"
                       id={ `${index} - check` }
                       onClick={ () => handleCheck(data[mealStep]) }
+                      defaultChecked={ checks.some((e) => e === data[mealStep]) }
                     />
                   </label>
                 ))

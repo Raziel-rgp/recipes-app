@@ -6,10 +6,8 @@ import useLocalStorage from '../hooks/useLocalStorage';
 const MAX_CATEGORY = 5;
 const INITIAL_IN_PROGRESS = {
   drinks: {
-    0: [],
   },
   meals: {
-    0: [],
   },
 };
 
