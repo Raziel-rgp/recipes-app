@@ -120,6 +120,8 @@ function RecipeInProgressCard() {
     }
   };
 
+  const cond = ingredients.length !== 0 ? ingredients.length === checks.length : false;
+
   return (
     <div>
       {
@@ -185,10 +187,6 @@ function RecipeInProgressCard() {
             <p data-testid="instructions">
               { data.strInstructions }
             </p>
-
-            <button type="button" data-testid="finish-recipe-btn">
-              Finish Recipe
-            </button>
           </section>
         ) : (
           <section>
@@ -229,13 +227,17 @@ function RecipeInProgressCard() {
             <p data-testid="instructions">
               { data.strInstructions }
             </p>
-
-            <button type="button" data-testid="finish-recipe-btn">
-              Finish Recipe
-            </button>
           </section>
         )
       }
+      <button
+        type="button"
+        data-testid="finish-recipe-btn"
+        className="finish"
+        disabled={ !cond }
+      >
+        Finish Recipe
+      </button>
     </div>
   );
 }
