@@ -4,20 +4,34 @@ import { getItem } from '../services/LocalStorageFuncs';
 
 import Header from '../components/Header';
 
+const copy = require('clipboard-copy');
+
 function DoneRecipes() {
   const [recipes, setRecipes] = useState([]);
+  const [clipboard, setClipBoard] = useState();
   // const { location: { pathname } } = useHistory();
-  // const [path, setPath] = useState('');
 
   useEffect(() => {
-    // setPath(pathname.includes('drink') ? 'drink' : 'meal');
     setRecipes(getItem('doneRecipes'));
   }, []);
 
-  // console.log(pathname);
+  console.log(recipes);
+
+  const clickClipBoard = async (pathname) => {
+    // console.log(target.id);
+    try {
+      setClipBoard(true);
+      const url = `http://localhost:3000${pathname}`;
+      await copy(url);
+    } catch (error) {
+      console.log(error);
+      setClipBoard(false);
+    }
+  };
 
   return (
     <section>
+      { clipboard && <p>Link copied!</p>}
       <Header />
       <button
         type="button"
@@ -69,11 +83,16 @@ function DoneRecipes() {
                       ))
                   }
                 </div>
-                <img
-                  src="src/images/shareIcon.svg"
-                  alt="share icon"
-                  data-testid={ `${index}-horizontal-share-btn` }
-                />
+                <button
+                  type="button"
+                  onClick={ () => clickClipBoard(`/${dr.type}s/${dr.id}`) }
+                >
+                  <img
+                    src="./src/images/shareIcon.svg"
+                    alt="Compartilhar"
+                    data-testid={ `${index}-horizontal-share-btn` }
+                  />
+                </button>
               </li>
             )
           ))
