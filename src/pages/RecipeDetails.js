@@ -5,6 +5,7 @@ import RecipesContext from '../context/RecipesContext';
 import '../styles/RecipeDetails.css';
 import heartWhite from '../images/whiteHeartIcon.svg';
 import heartBlack from '../images/blackHeartIcon.svg';
+import { clickFavorite } from '../services/recipeDetailsFuncs';
 
 const copy = require('clipboard-copy');
 
@@ -27,17 +28,19 @@ function RecipeDetails({ type, match }) {
       setRecipe(recipeData);
 
       const getIngredients = (data) => {
-        const keysDataIngredients = Object.keys(data)
-          .filter((e) => e.includes('strIngredient'));
-        const filterIngredients = keysDataIngredients.filter((e) => recipe[e] !== null);
-        const filterVazios = filterIngredients.filter((e) => recipe[e] !== '');
-        setIngredients(filterVazios);
+        if (data !== undefined && data) {
+          const keysDataIngredients = Object.keys(data)
+            .filter((e) => e.includes('strIngredient'));
+          const filterIngredients = keysDataIngredients.filter((e) => recipe[e] !== null);
+          const filterVazios = filterIngredients.filter((e) => recipe[e] !== '');
+          setIngredients(filterVazios);
 
-        const keysDataMeasure = Object.keys(data)
-          .filter((e) => e.includes('strMeasure'));
-        const filterMeasures = keysDataMeasure.filter((e) => recipe[e] !== null);
-        const measuresVazios = filterMeasures.filter((e) => recipe[e] !== '');
-        setMeasures(measuresVazios);
+          const keysDataMeasure = Object.keys(data)
+            .filter((e) => e.includes('strMeasure'));
+          const filterMeasures = keysDataMeasure.filter((e) => recipe[e] !== null);
+          const measuresVazios = filterMeasures.filter((e) => recipe[e] !== '');
+          setMeasures(measuresVazios);
+        }
       };
       getIngredients(recipeData);
     };
@@ -52,36 +55,6 @@ function RecipeDetails({ type, match }) {
     } catch (error) {
       console.log(error);
       setClipBoard(false);
-    }
-  };
-
-  const clickFavorite = () => {
-    if (!favoriteRecipes.some((e) => e.id === id)) {
-      let favRecipe = {};
-      if (type === 'drinks') {
-        favRecipe = {
-          id: recipe.idDrink,
-          type: 'drink',
-          nationality: '',
-          category: recipe.strCategory,
-          alcoholicOrNot: recipe.strAlcoholic,
-          name: recipe.strDrink,
-          image: recipe.strDrinkThumb,
-        };
-      } else {
-        favRecipe = {
-          id: recipe.idMeal,
-          type: 'meal',
-          nationality: recipe.strArea,
-          category: recipe.strCategory,
-          alcoholicOrNot: '',
-          name: recipe.strMeal,
-          image: recipe.strMealThumb,
-        };
-      }
-      setFavoriteRecipes([...favoriteRecipes, favRecipe]);
-    } else {
-      setFavoriteRecipes(favoriteRecipes.filter((e) => +e.id !== +id));
     }
   };
 
@@ -100,7 +73,13 @@ function RecipeDetails({ type, match }) {
         </button>
         <button
           type="button"
-          onClick={ clickFavorite }
+          onClick={ () => clickFavorite({
+            recipe,
+            type,
+            favoriteRecipes,
+            id,
+            setFavoriteRecipes,
+          }) }
         >
           <img
             data-testid="favorite-btn"

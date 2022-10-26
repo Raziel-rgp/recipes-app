@@ -77,4 +77,18 @@ describe('Testando a pagina detalhada das receitas', () => {
     const { pathname } = history.location;
     expect(pathname).toBe('/drinks/15997/in-progress');
   });
+
+  // it.only('Continue Recipe', async () => {
+  //   const { history } = renderWithRouter(<App />, '/drinks/15288');
+  //   const btnStartRecipe = await screen.findByTestId('start-recipe-btn');
+  //   userEvent.click(btnStartRecipe);
+  //   const checkboxes = await screen.findAllByRole('checkbox');
+  //   userEvent.click(checkboxes[0]);
+  //   history.push('/drinks/15288');
+  //   const btnContinue = screen.queryByRole('button', {
+  //     name: /continue recipe/i,
+  //   }, { timeout: 3000 });
+  //   // expect(btnContinue).toBeInTheDocument();
+  //   expect(btnStartRecipe).toBeInTheDocument();
+  // });
 });

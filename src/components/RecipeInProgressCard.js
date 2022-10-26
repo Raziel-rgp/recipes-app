@@ -32,11 +32,13 @@ function RecipeInProgressCard() {
   }, [id, type]);
 
   const getIngredients = useCallback(() => {
-    const keysDataIngredients = Object.keys(data)
-      .filter((e) => e.includes('strIngredient'));
-    const filterIngredients = keysDataIngredients.filter((e) => data[e] !== null);
-    const filterVazios = filterIngredients.filter((e) => data[e] !== '');
-    setIngredients(filterVazios);
+    if (data) {
+      const keysDataIngredients = Object.keys(data)
+        .filter((e) => e.includes('strIngredient'));
+      const filterIngredients = keysDataIngredients.filter((e) => data[e] !== null);
+      const filterVazios = filterIngredients.filter((e) => data[e] !== '');
+      setIngredients(filterVazios);
+    }
   }, [data]);
 
   useEffect(() => {
@@ -70,6 +72,7 @@ function RecipeInProgressCard() {
       setItem('inProgressRecipes', saveObj);
     }
   }, [checks, id, type]);
+
   const handleCheck = (ingredient) => {
     if (!checks.some((e) => e === ingredient)) {
       setChecks([...checks, ingredient]);
@@ -88,10 +91,8 @@ function RecipeInProgressCard() {
       setClipBoard(false);
     }
   };
-
   const cond = ingredients.length !== 0 ? ingredients.length === checks.length : false;
   const handleClick = () => {
-    console.log('cheguei');
     if (type === 'drinks') {
       const condicao = !doneRecipes.some((e) => +e.idDrink === +id);
       if (condicao) {
@@ -125,7 +126,6 @@ function RecipeInProgressCard() {
     }
     push('/done-recipes');
   };
-
   return (
     <div>
       {
@@ -150,87 +150,90 @@ function RecipeInProgressCard() {
         />
       </button>
       {
-        pathname.includes('drinks') ? (
-          <section>
-            <h1 data-testid="recipe-title">
-              { data.strGlass }
-            </h1>
-            <h3 data-testid="recipe-category">
-              { data.strCategory }
-            </h3>
-            <h5>
-              { data.strAlcoholic }
-            </h5>
-            <img
-              data-testid="recipe-photo"
-              src={ data.strDrinkThumb }
-              alt={ data.strDrink }
-            />
-            <section>
-              {
-                ingredients.map((steps, index) => (
-                  <label
-                    className={ checks
-                      .some((e) => e === data[steps]) ? 'done' : undefined }
-                    key={ index }
-                    htmlFor={ `${index} - check` }
-                    data-testid={ `${index}-ingredient-step` }
-                  >
-                    { data[steps] }
-                    <input
-                      type="checkbox"
-                      id={ `${index} - check` }
-                      onClick={ () => handleCheck(data[steps]) }
-                      defaultChecked={ checks.some((e) => e === data[steps]) }
-                    />
-                  </label>
-                ))
-              }
-            </section>
-            <p data-testid="instructions">
-              { data.strInstructions }
-            </p>
-          </section>
-        ) : (
-          <section>
-            <h1 data-testid="recipe-title">
-              { data.strMeal }
-            </h1>
-            <h3 data-testid="recipe-category">
-              { data.strCategory }
-            </h3>
-            <img
-              data-testid="recipe-photo"
-              src={ data.strMealThumb }
-              alt={ data.strMeal }
-            />
-            <section>
-              {
-                ingredients.map((mealStep, index) => (
-                  <label
-                    className={ checks
-                      .some((e) => e === data[mealStep]) ? 'done' : undefined }
-                    key={ index }
-                    htmlFor={ `${index} - check` }
-                    data-testid={ `${index}-ingredient-step` }
-                  >
-                    { data[mealStep] }
-                    <input
-                      type="checkbox"
-                      id={ `${index} - check` }
-                      onClick={ () => handleCheck(data[mealStep]) }
-                      defaultChecked={ checks.some((e) => e === data[mealStep]) }
-                    />
-                  </label>
-                ))
-              }
-            </section>
+        data !== undefined
+          && (
+            pathname.includes('drinks') ? (
+              <section>
+                <h1 data-testid="recipe-title">
+                  { data.strGlass }
+                </h1>
+                <h3 data-testid="recipe-category">
+                  { data.strCategory }
+                </h3>
+                <h5>
+                  { data.strAlcoholic }
+                </h5>
+                <img
+                  data-testid="recipe-photo"
+                  src={ data.strDrinkThumb }
+                  alt={ data.strDrink }
+                />
+                <section>
+                  {
+                    ingredients.map((steps, index) => (
+                      <label
+                        className={ checks
+                          .some((e) => e === data[steps]) ? 'done' : undefined }
+                        key={ index }
+                        htmlFor={ `${index} - check` }
+                        data-testid={ `${index}-ingredient-step` }
+                      >
+                        { data[steps] }
+                        <input
+                          type="checkbox"
+                          id={ `${index} - check` }
+                          onClick={ () => handleCheck(data[steps]) }
+                          defaultChecked={ checks.some((e) => e === data[steps]) }
+                        />
+                      </label>
+                    ))
+                  }
+                </section>
+                <p data-testid="instructions">
+                  { data.strInstructions }
+                </p>
+              </section>
+            ) : (
+              <section>
+                <h1 data-testid="recipe-title">
+                  { data.strMeal }
+                </h1>
+                <h3 data-testid="recipe-category">
+                  { data.strCategory }
+                </h3>
+                <img
+                  data-testid="recipe-photo"
+                  src={ data.strMealThumb }
+                  alt={ data.strMeal }
+                />
+                <section>
+                  {
+                    ingredients.map((mealStep, index) => (
+                      <label
+                        className={ checks
+                          .some((e) => e === data[mealStep]) ? 'done' : undefined }
+                        key={ index }
+                        htmlFor={ `${index} - check` }
+                        data-testid={ `${index}-ingredient-step` }
+                      >
+                        { data[mealStep] }
+                        <input
+                          type="checkbox"
+                          id={ `${index} - check` }
+                          onClick={ () => handleCheck(data[mealStep]) }
+                          defaultChecked={ checks.some((e) => e === data[mealStep]) }
+                        />
+                      </label>
+                    ))
+                  }
+                </section>
 
-            <p data-testid="instructions">
-              { data.strInstructions }
-            </p>
-          </section>
-        )
+                <p data-testid="instructions">
+                  { data.strInstructions }
+                </p>
+              </section>
+            )
+          )
       }
       <button
         type="button"
@@ -244,5 +247,4 @@ function RecipeInProgressCard() {
     </div>
   );
 }
-
 export default RecipeInProgressCard;
