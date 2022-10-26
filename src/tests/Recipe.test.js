@@ -21,7 +21,7 @@ describe('Testando Pagina Recipe', () => {
     expect(clearAllFilters).toBeInTheDocument();
     expect(img).toBeInTheDocument();
     expect(buttonCocktail).toBeInTheDocument();
-    expect(buttons.length).toBe(6);
+    expect(buttons.length).toBe(7);
   });
 
   test('Testando se os elementos são renderizados na pagina de meals', async () => {
@@ -37,7 +37,7 @@ describe('Testando Pagina Recipe', () => {
     expect(clearAllFilters).toBeInTheDocument();
     expect(img).toBeInTheDocument();
     expect(buttonCocktail).toBeInTheDocument();
-    expect(buttons.length).toBe(6);
+    expect(buttons.length).toBe(7);
   });
 
   test('Testando se os elementos são renderizados na pagina de meals', async () => {

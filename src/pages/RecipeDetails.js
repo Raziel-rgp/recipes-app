@@ -46,10 +46,11 @@ function RecipeDetails({ type, match }) {
 
   const clickClipBoard = async () => {
     try {
+      setClipBoard(true);
       const url = `http://localhost:3000${pathname}`;
       await copy(url);
-      setClipBoard(true);
     } catch (error) {
+      console.log(error);
       setClipBoard(false);
     }
   };
@@ -80,7 +81,6 @@ function RecipeDetails({ type, match }) {
       }
       setFavoriteRecipes([...favoriteRecipes, favRecipe]);
     } else {
-      console.log(id);
       setFavoriteRecipes(favoriteRecipes.filter((e) => +e.id !== +id));
     }
   };
@@ -89,7 +89,7 @@ function RecipeDetails({ type, match }) {
     Object.keys(recipe).length > 0 && (
       <div>
         {
-          clipboard && <div>Link copied!</div>
+          clipboard && <div data-testid="msg_copy_sucess">Link copied!</div>
         }
         <button
           type="button"
