@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-// import { useHistory } from 'react-router-dom';
-import { getItem } from '../services/LocalStorageFuncs';
+import { Link } from 'react-router-dom';
 
+import { getItem } from '../services/LocalStorageFuncs';
 import Header from '../components/Header';
 
 const copy = require('clipboard-copy');
@@ -10,7 +10,6 @@ function DoneRecipes() {
   const [recipes, setRecipes] = useState([]);
   const [clipboard, setClipBoard] = useState();
   const [type, setType] = useState();
-  // const { location: { pathname } } = useHistory();
 
   useEffect(() => {
     setRecipes(getItem('doneRecipes'));
@@ -20,7 +19,6 @@ function DoneRecipes() {
   console.log(recipes);
 
   const clickClipBoard = async (pathname) => {
-    // console.log(target.id);
     try {
       setClipBoard(true);
       const url = `http://localhost:3000${pathname}`;
@@ -62,12 +60,18 @@ function DoneRecipes() {
             ?.map((dr, index) => (
               (
                 <li key={ dr.id }>
-                  <img
-                    src={ dr.image }
-                    alt={ dr.name }
-                    data-testid={ `${index}-horizontal-image` }
-                  />
-                  <p data-testid={ `${index}-horizontal-name` }>{ dr.name }</p>
+                  <a
+                    href={ `http://localhost:3000/${dr.type}s/${dr.id}` }
+                  >
+                    <img
+                      src={ dr.image }
+                      alt={ dr.name }
+                      data-testid={ `${index}-horizontal-image` }
+                    />
+                  </a>
+                  <Link to={ `/${dr.type}s/${dr.id}` }>
+                    <p data-testid={ `${index}-horizontal-name` }>{ dr.name }</p>
+                  </Link>
                   <p data-testid={ `${index}-horizontal-top-text` }>
                     {
                       dr.type === 'meal'
