@@ -212,7 +212,7 @@ function RecipeDetails({ type, match }) {
           !doneRecipes.some((e) => e.id === id) && (
             <button
               type="button"
-              onClick={ () => history.push(`/${type}/${id}/in-progress`) }
+              onClick={ () => history.push(`${id}/in-progress`) }
               className="start-recipe-button"
               data-testid="start-recipe-btn"
             >
