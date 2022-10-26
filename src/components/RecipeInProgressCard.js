@@ -1,23 +1,25 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react';
-import { useLocation, useParams } from 'react-router-dom';
+import { useLocation, useParams, useHistory } from 'react-router-dom';
 import { setItem, getItem } from '../services/LocalStorageFuncs';
 import RecipesContext from '../context/RecipesContext';
 import '../styles/RecipeInProgress.css';
 import heartWhite from '../images/whiteHeartIcon.svg';
 import heartBlack from '../images/blackHeartIcon.svg';
+import clickFavorite from '../services/RecipeInProgressFuncs';
 
 const copy = require('clipboard-copy');
 
 function RecipeInProgressCard() {
   const [clipboard, setClipBoard] = useState();
   const { findRecipeById, favoriteRecipes,
-    setFavoriteRecipes } = useContext(RecipesContext);
+    setFavoriteRecipes, setDoneRecipes, doneRecipes } = useContext(RecipesContext);
   const { pathname } = useLocation();
   const { id } = useParams();
   const [data, setData] = useState({});
   const [ingredients, setIngredients] = useState([]);
   const [checks, setChecks] = useState([]);
   const [type, setType] = useState('');
+  const { push } = useHistory();
 
   useEffect(() => {
     if (type !== '') {
@@ -39,7 +41,6 @@ function RecipeInProgressCard() {
 
   useEffect(() => {
     let typeFood = '';
-
     const asyncOperation = async () => {
       if (pathname.includes('drinks')) {
         typeFood = 'drinks';
@@ -69,7 +70,6 @@ function RecipeInProgressCard() {
       setItem('inProgressRecipes', saveObj);
     }
   }, [checks, id, type]);
-
   const handleCheck = (ingredient) => {
     if (!checks.some((e) => e === ingredient)) {
       setChecks([...checks, ingredient]);
@@ -77,7 +77,6 @@ function RecipeInProgressCard() {
       setChecks(checks.filter((e) => e !== ingredient));
     }
   };
-
   const clickClipBoard = async () => {
     try {
       setClipBoard(true);
@@ -90,37 +89,42 @@ function RecipeInProgressCard() {
     }
   };
 
-  const clickFavorite = () => {
-    if (!favoriteRecipes.some((e) => e.id === id)) {
-      let favRecipe = {};
-      if (type === 'drinks') {
-        favRecipe = {
-          id: data.idDrink,
-          type: 'drink',
-          nationality: '',
-          category: data.strCategory,
-          alcoholicOrNot: data.strAlcoholic,
-          name: data.strDrink,
-          image: data.strDrinkThumb,
-        };
-      } else {
-        favRecipe = {
-          id: data.idMeal,
-          type: 'meal',
-          nationality: data.strArea,
-          category: data.strCategory,
-          alcoholicOrNot: '',
-          name: data.strMeal,
-          image: data.strMealThumb,
-        };
-      }
-      setFavoriteRecipes([...favoriteRecipes, favRecipe]);
-    } else {
-      setFavoriteRecipes(favoriteRecipes.filter((e) => +e.id !== +id));
-    }
-  };
-
   const cond = ingredients.length !== 0 ? ingredients.length === checks.length : false;
+  const handleClick = () => {
+    console.log('cheguei');
+    if (type === 'drinks') {
+      const condicao = !doneRecipes.some((e) => +e.idDrink === +id);
+      if (condicao) {
+        setDoneRecipes([...doneRecipes, {
+          id: data.idDrink,
+          nationality: '',
+          name: data.strDrink,
+          category: data.strCategory,
+          image: data.strDrinkThumb,
+          tags: data.strTags ? data.strTags.split(',') : [],
+          alcoholicOrNot: data.strAlcoholic,
+          type: type.replace('s', ''),
+          doneDate: new Date().toISOString(),
+        }]);
+      }
+    } else {
+      const condicao = !doneRecipes.some((e) => +e.idMeal === +id);
+      if (condicao) {
+        setDoneRecipes([...doneRecipes, {
+          id: data.idMeal,
+          nationality: data.strArea,
+          name: data.strMeal,
+          category: data.strCategory,
+          image: data.strMealThumb,
+          tags: data.strTags.split(','),
+          alcoholicOrNot: '',
+          type: type.replace('s', ''),
+          doneDate: new Date().toISOString(),
+        }]);
+      }
+    }
+    push('/done-recipes');
+  };
 
   return (
     <div>
@@ -136,7 +140,8 @@ function RecipeInProgressCard() {
       </button>
       <button
         type="button"
-        onClick={ clickFavorite }
+        onClick={ () => (
+          clickFavorite({ favoriteRecipes, setFavoriteRecipes, data, type, id })) }
       >
         <img
           data-testid="favorite-btn"
@@ -161,7 +166,6 @@ function RecipeInProgressCard() {
               src={ data.strDrinkThumb }
               alt={ data.strDrink }
             />
-
             <section>
               {
                 ingredients.map((steps, index) => (
@@ -183,7 +187,6 @@ function RecipeInProgressCard() {
                 ))
               }
             </section>
-
             <p data-testid="instructions">
               { data.strInstructions }
             </p>
@@ -201,7 +204,6 @@ function RecipeInProgressCard() {
               src={ data.strMealThumb }
               alt={ data.strMeal }
             />
-
             <section>
               {
                 ingredients.map((mealStep, index) => (
@@ -235,6 +237,7 @@ function RecipeInProgressCard() {
         data-testid="finish-recipe-btn"
         className="finish"
         disabled={ !cond }
+        onClick={ handleClick }
       >
         Finish Recipe
       </button>

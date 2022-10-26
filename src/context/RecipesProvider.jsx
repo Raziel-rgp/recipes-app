@@ -19,7 +19,7 @@ function RecipesProvider({ children }) {
   const [btnsDrinks, setBtnsDrinks] = useState([]);
   const [btnsMeals, setBtnsMeals] = useState([]);
   const { state: doneRecipes,
-    setState: setDoneRecipes } = useLocalStorage('DoneRecipes', []);
+    setState: setDoneRecipes } = useLocalStorage('doneRecipes', []);
   const {
     state: inProgressRecipes,
     setState: setInProgressRecipes,

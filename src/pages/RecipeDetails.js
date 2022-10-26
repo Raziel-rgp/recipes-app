@@ -227,6 +227,7 @@ function RecipeDetails({ type, match }) {
               // onClick={}
               className="start-recipe-button"
               data-testid="start-recipe-btn"
+              onClick={ () => history.push(`${id}/in-progress`) }
             >
               Continue Recipe
             </button>
@@ -237,7 +238,6 @@ function RecipeDetails({ type, match }) {
     )
   );
 }
-
 RecipeDetails.propTypes = {
   type: PropTypes.string.isRequired,
   match: PropTypes.shape({
