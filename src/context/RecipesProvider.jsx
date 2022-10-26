@@ -6,10 +6,8 @@ import useLocalStorage from '../hooks/useLocalStorage';
 const MAX_CATEGORY = 5;
 const INITIAL_IN_PROGRESS = {
   drinks: {
-    0: [],
   },
   meals: {
-    0: [],
   },
 };
 
@@ -21,7 +19,7 @@ function RecipesProvider({ children }) {
   const [btnsDrinks, setBtnsDrinks] = useState([]);
   const [btnsMeals, setBtnsMeals] = useState([]);
   const { state: doneRecipes,
-    setState: setDoneRecipes } = useLocalStorage('DoneRecipes', []);
+    setState: setDoneRecipes } = useLocalStorage('doneRecipes', []);
   const {
     state: inProgressRecipes,
     setState: setInProgressRecipes,

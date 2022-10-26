@@ -1,11 +1,8 @@
 import React from 'react';
+import RecipeInProgressCard from '../components/RecipeInProgressCard';
 
 function RecipeInProgress() {
-  return (
-    <div>
-      <h1>Recipe In Progress</h1>
-    </div>
-  );
+  return <RecipeInProgressCard />;
 }
 
 export default RecipeInProgress;

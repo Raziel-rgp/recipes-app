@@ -3,31 +3,23 @@ import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import RecipesContext from '../context/RecipesContext';
 import '../styles/RecipeDetails.css';
+import heartWhite from '../images/whiteHeartIcon.svg';
+import heartBlack from '../images/blackHeartIcon.svg';
 
 const copy = require('clipboard-copy');
 
 const MAX_NUM = 6;
-// const THREE_SECONDS = 3000;
 
 function RecipeDetails({ type, match }) {
   const [clipboard, setClipBoard] = useState();
-  const {
-    findRecipeById,
-    drinks,
-    meals,
-    doneRecipes,
-    inProgressRecipes,
-    favoriteRecipes,
-    setFavoriteRecipes,
-  } = useContext(RecipesContext);
+  const { findRecipeById, drinks, meals, doneRecipes, inProgressRecipes, favoriteRecipes,
+    setFavoriteRecipes } = useContext(RecipesContext);
   const [recipe, setRecipe] = useState({});
   const [ingredients, setIngredients] = useState([]);
   const [measures, setMeasures] = useState([]);
   const { id } = match.params;
   const history = useHistory();
   const { pathname } = history.location;
-  // console.log(history.location.pathname);
-  // console.log(clipboard);
 
   useEffect(() => {
     const getRecipe = async () => {
@@ -54,45 +46,50 @@ function RecipeDetails({ type, match }) {
 
   const clickClipBoard = async () => {
     try {
+      setClipBoard(true);
       const url = `http://localhost:3000${pathname}`;
       await copy(url);
-      setClipBoard(true);
     } catch (error) {
+      console.log(error);
       setClipBoard(false);
     }
   };
 
   const clickFavorite = () => {
-    let favRecipe = {};
-    if (type === 'drinks') {
-      favRecipe = {
-        id: recipe.idDrink,
-        type: 'drink',
-        nationality: '',
-        category: recipe.strCategory,
-        alcoholicOrNot: recipe.strAlcoholic,
-        name: recipe.strDrink,
-        image: recipe.strDrinkThumb,
-      };
+    if (!favoriteRecipes.some((e) => e.id === id)) {
+      let favRecipe = {};
+      if (type === 'drinks') {
+        favRecipe = {
+          id: recipe.idDrink,
+          type: 'drink',
+          nationality: '',
+          category: recipe.strCategory,
+          alcoholicOrNot: recipe.strAlcoholic,
+          name: recipe.strDrink,
+          image: recipe.strDrinkThumb,
+        };
+      } else {
+        favRecipe = {
+          id: recipe.idMeal,
+          type: 'meal',
+          nationality: recipe.strArea,
+          category: recipe.strCategory,
+          alcoholicOrNot: '',
+          name: recipe.strMeal,
+          image: recipe.strMealThumb,
+        };
+      }
+      setFavoriteRecipes([...favoriteRecipes, favRecipe]);
     } else {
-      favRecipe = {
-        id: recipe.idMeal,
-        type: 'meal',
-        nationality: recipe.strArea,
-        category: recipe.strCategory,
-        alcoholicOrNot: '',
-        name: recipe.strMeal,
-        image: recipe.strMealThumb,
-      };
+      setFavoriteRecipes(favoriteRecipes.filter((e) => +e.id !== +id));
     }
-    setFavoriteRecipes([...favoriteRecipes, favRecipe]);
   };
 
   return (
     Object.keys(recipe).length > 0 && (
       <div>
         {
-          clipboard && <div>Link copied!</div>
+          clipboard && <div data-testid="msg_copy_sucess">Link copied!</div>
         }
         <button
           type="button"
@@ -104,9 +101,12 @@ function RecipeDetails({ type, match }) {
         <button
           type="button"
           onClick={ clickFavorite }
-          data-testid="favorite-btn"
         >
-          Favoritar
+          <img
+            data-testid="favorite-btn"
+            src={ favoriteRecipes.some((e) => e.id === id) ? heartBlack : heartWhite }
+            alt={ id }
+          />
         </button>
         {
           type === 'drinks' ? (
@@ -212,7 +212,7 @@ function RecipeDetails({ type, match }) {
           !doneRecipes.some((e) => e.id === id) && (
             <button
               type="button"
-              onClick={ () => history.push(`/${type}/${id}/in-progress`) }
+              onClick={ () => history.push(`${id}/in-progress`) }
               className="start-recipe-button"
               data-testid="start-recipe-btn"
             >
@@ -227,6 +227,7 @@ function RecipeDetails({ type, match }) {
               // onClick={}
               className="start-recipe-button"
               data-testid="start-recipe-btn"
+              onClick={ () => history.push(`${id}/in-progress`) }
             >
               Continue Recipe
             </button>
@@ -237,7 +238,6 @@ function RecipeDetails({ type, match }) {
     )
   );
 }
-
 RecipeDetails.propTypes = {
   type: PropTypes.string.isRequired,
   match: PropTypes.shape({
