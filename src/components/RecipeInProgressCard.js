@@ -3,9 +3,15 @@ import { useLocation, useParams } from 'react-router-dom';
 import { setItem, getItem } from '../services/LocalStorageFuncs';
 import RecipesContext from '../context/RecipesContext';
 import '../styles/RecipeInProgress.css';
+import heartWhite from '../images/whiteHeartIcon.svg';
+import heartBlack from '../images/blackHeartIcon.svg';
+
+const copy = require('clipboard-copy');
 
 function RecipeInProgressCard() {
-  const { findRecipeById } = useContext(RecipesContext);
+  const [clipboard, setClipBoard] = useState();
+  const { findRecipeById, favoriteRecipes,
+    setFavoriteRecipes } = useContext(RecipesContext);
   const { pathname } = useLocation();
   const { id } = useParams();
   const [data, setData] = useState({});
@@ -72,8 +78,70 @@ function RecipeInProgressCard() {
     }
   };
 
+  const clickClipBoard = async () => {
+    try {
+      setClipBoard(true);
+      let url = `http://localhost:3000${pathname}`;
+      url = url.replace('/in-progress', '');
+      await copy(url);
+    } catch (error) {
+      console.log(error);
+      setClipBoard(false);
+    }
+  };
+
+  const clickFavorite = () => {
+    if (!favoriteRecipes.some((e) => e.id === id)) {
+      let favRecipe = {};
+      if (type === 'drinks') {
+        favRecipe = {
+          id: data.idDrink,
+          type: 'drink',
+          nationality: '',
+          category: data.strCategory,
+          alcoholicOrNot: data.strAlcoholic,
+          name: data.strDrink,
+          image: data.strDrinkThumb,
+        };
+      } else {
+        favRecipe = {
+          id: data.idMeal,
+          type: 'meal',
+          nationality: data.strArea,
+          category: data.strCategory,
+          alcoholicOrNot: '',
+          name: data.strMeal,
+          image: data.strMealThumb,
+        };
+      }
+      setFavoriteRecipes([...favoriteRecipes, favRecipe]);
+    } else {
+      setFavoriteRecipes(favoriteRecipes.filter((e) => +e.id !== +id));
+    }
+  };
+
   return (
     <div>
+      {
+        clipboard && <div data-testid="msg_copy_sucess">Link copied!</div>
+      }
+      <button
+        type="button"
+        onClick={ clickClipBoard }
+        data-testid="share-btn"
+      >
+        Compartilhar
+      </button>
+      <button
+        type="button"
+        onClick={ clickFavorite }
+      >
+        <img
+          data-testid="favorite-btn"
+          src={ favoriteRecipes.some((e) => e.id === id) ? heartBlack : heartWhite }
+          alt={ id }
+        />
+      </button>
       {
         pathname.includes('drinks') ? (
           <section>
@@ -91,12 +159,6 @@ function RecipeInProgressCard() {
               src={ data.strDrinkThumb }
               alt={ data.strDrink }
             />
-            <button type="button" data-testid="share-btn">
-              Share
-            </button>
-            <button type="button" data-testid="favorite-btn">
-              Add to Favorite
-            </button>
 
             <section>
               {
@@ -141,12 +203,6 @@ function RecipeInProgressCard() {
               src={ data.strMealThumb }
               alt={ data.strMeal }
             />
-            <button type="button" data-testid="share-btn">
-              Share
-            </button>
-            <button type="button" data-testid="favorite-btn">
-              Add to Favorite
-            </button>
 
             <section>
               {
